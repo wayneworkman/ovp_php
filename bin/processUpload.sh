@@ -65,9 +65,9 @@ options="$options -D $database -e"
 sum=$( $sha256sum $file | $cut -d' ' -f1)
 
 
-if [[ "${#sum}" != "256" ]]; then
-    #Sum is not 256 characters? Exit.
-    echo "sum is not 256 characters, was ${#sum}"
+if [[ "${#sum}" != "64" ]]; then
+    #Sum is not 64 characters? Exit.
+    echo "sum is not 64 characters, was ${#sum}"
     exit
 fi
 
