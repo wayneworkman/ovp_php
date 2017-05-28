@@ -27,5 +27,7 @@ if ($SessionIsVerified == "1") {
         echo "You have not uploaded any videos yet.";
     }
     echo "</div>\n";
+    echo "</body>";
+    echo "</html>";
 }
 ?>
