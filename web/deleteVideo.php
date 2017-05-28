@@ -13,23 +13,30 @@ if ($SessionIsVerified == "1") {
     }
 
     if ($ConfirmDelete == "Confirmed") {
-    if ($isAdministrator == 1) {
-        $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'";
-    } else {
-        $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v' AND `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID')";
-    }
-    if ($link->query($sql)) {
-        // good, send back to usernameTracking.
-            $NextURL="home.php";
-            header("Location: $NextURL");
+        #First, we must confirm ownership or adminship.
+        if ($isAdministrator == 1) {
+            $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` = '$v' LIMIT 1";
         } else {
-            // Error
-            $link->close();
-            setMessage($SiteErrorMessage,"verifiedPlayer.php");
+            $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` = '$v' AND `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') LIMIT 1";
         }
-    } else {
-        $link->close();
-        setMessage($invalidData,"verifiedPlayer.php");
+        $result = $link->query($sql);
+        if ($result->num_rows > 0) {
+            #Here owership or adminship is confirmed. Delete association row, then video row.
+            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v';DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
+        
+            if ($link->query($sql)) {
+                // good, go home.
+                $NextURL="home.php";
+                header("Location: $NextURL");
+            } else {
+                // Error
+                $link->close();
+                setMessage($SiteErrorMessage,"verifiedPlayer.php");
+            }
+        } else {
+            $link->close();
+            setMessage($invalidData,"verifiedPlayer.php");
+        }
     }
 }
 ?>
