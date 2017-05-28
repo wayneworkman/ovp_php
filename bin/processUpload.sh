@@ -106,6 +106,7 @@ filename=$(basename "$file")
 extension="${filename##*.}"
 
 mv $file ${videoDir}/${sum}.${extension}
+#echo "mv $file ${videoDir}/${sum}.${extension}" >> $log
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
     echo "Move failed" >> $log
