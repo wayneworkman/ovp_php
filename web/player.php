@@ -9,7 +9,6 @@ $ext = pathinfo($v, PATHINFO_EXTENSION);
 
 if ($SessionIsVerified == "1") {
     include 'head.php';
-    echo "file=$file<br>ext=$ext<br>";
     echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
     echo "<br><br>\n";
     echo "iframe:<br>\n";

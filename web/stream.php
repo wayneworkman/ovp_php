@@ -5,7 +5,7 @@ include 'vars.php';
 $v = $_REQUEST['v'];
 $file = pathinfo($v, PATHINFO_FILENAME);
 $ext = pathinfo($v, PATHINFO_EXTENSION);
-$file = "$videoDir/$file.$ext"
+$file = "$videoDir/$file.$ext";
 
 
 
