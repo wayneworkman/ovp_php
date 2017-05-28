@@ -52,13 +52,13 @@ fi
 
 #Set mysql options.
 options="-sN"
-if [[ $snmysqlhost != "" ]]; then
+if [[ $mysqlhost != "" ]]; then
         options="$options -h$mysqlhost"
 fi
-if [[ $snmysqluser != "" ]]; then
+if [[ $mysqluser != "" ]]; then
         options="$options -u$mysqluser"
 fi
-if [[ $snmysqlpass != "" ]]; then
+if [[ $mysqlpass != "" ]]; then
         options="$options -p$mysqlpass"
 fi
 options="$options -D $database -e"
