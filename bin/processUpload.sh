@@ -99,7 +99,11 @@ fi
 
 
 #Move the file into place.
-mv $file $videoDir
+
+filename=$(basename "$file")
+extension="${filename##*.}"
+
+mv $file ${videoDir}/${sum}.${extension}
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
     echo "Move failed" >> $log
