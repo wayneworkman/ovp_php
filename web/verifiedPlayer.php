@@ -14,8 +14,8 @@ $ext = pathinfo($v, PATHINFO_EXTENSION);
 
 if ($SessionIsVerified == "1") {
     include 'connect2db.php';
-    include 'functions.php';   
     include 'head.php';
+    include 'functions.php';
     echo "<div>\n";
     echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
     echo "<br><br>\n";

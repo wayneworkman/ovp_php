@@ -2,9 +2,9 @@
 include 'vars.php';
 include 'verifysession.php';
 if ($SessionIsVerified == "1") {
+    include 'connect2db.php';
     include 'head.php';
     include 'functions.php';
-    include 'connect2db.php';
     if (isset($_REQUEST['ConfirmDelete'])) {
         $ConfirmDelete = $link->real_escape_string(trim($_REQUEST['ConfirmDelete']));
     }
@@ -22,21 +22,20 @@ if ($SessionIsVerified == "1") {
         $result = $link->query($sql);
         if ($result->num_rows > 0) {
             #Here owership or adminship is confirmed. Delete association row, then video row.
-            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'; DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
-        
-            if ($link->multi_query($sql)) {
-                // good, go home.
-                $NextURL="home.php";
-                header("Location: $NextURL");
-            } else {
-                // Error
-                $link->close();
-                setMessage($SiteErrorMessage,"verifiedPlayer.php?v=$v");
-            }
-        } else {
+            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'";
+            $link->query($sql);
+            $sql = "DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
+            $link->query($sql);
             $link->close();
-            setMessage($invalidData,"verifiedPlayer.php?v=$v");
+            setMessage("Successful deletion","home.php");
+        } else {
+            // Error
+            $link->close();
+            setMessage($SiteErrorMessage,"verifiedPlayer.php?v=$v");
         }
+    } else {
+        $link->close();
+        setMessage($invalidData,"verifiedPlayer.php?v=$v");
     }
 }
 ?>
