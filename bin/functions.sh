@@ -38,7 +38,6 @@ placeFiles() {
     dots "Updating web files"
     rm -f /var/www/html/*
     cp ${cwd}/../web/* /var/www/html
-    cp ${cwd}/../web/.htaccess /var/www/html
     source "/etc/os-release"
     if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
         webpermissions="apache:apache"
@@ -91,7 +90,18 @@ checkOS() {
         exit
     fi
 }
-restartApache() {
+configurePHP() {
+    dots "Configuring PHP"
+    if [[ -e /etc/php5/apache2/php.ini ]]; then
+        sed -i "s/post_max_size = .*/post_max_size = ${post_max_size}/" /etc/php5/apache2/php.ini
+        sed -i "s/upload_max_filesize = .*/upload_max_filesize = ${upload_max_filesize}/" /etc/php5/apache2/php.ini
+        sed -i "s/memory_limit = .*/memory_limit = ${memory_limit}/" /etc/php5/apache2/php.ini
+        sed -i "s/max_execution_time = .*/max_execution_time = ${max_execution_time}/" /etc/php5/apache2/php.ini
+        sed -i "s/max_input_time = .*/max_input_time = ${max_input_time}/" /etc/php5/apache2/php.ini
+    fi
+    echo "Done"
+}
+configureApache() {
     dots "Configuring Apache"
     if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
         systemctl restart httpd > /dev/null 2>&1
@@ -103,7 +113,7 @@ restartApache() {
         systemctl enable apache2 > /dev/null 2>&1
     fi
 }
-restartMysql() {
+configureMysql() {
     dots "Configuring MySQL"
     if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
         systemctl restart mariadb > /dev/null 2>&1
