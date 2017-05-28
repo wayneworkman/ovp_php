@@ -4,7 +4,7 @@
 #Variables.
 videoDir="/data/videos"
 database="ovp"
-mysqlhost=""
+mysqlhost="localhost"
 mysqluser="processvideo"
 mysqlpass="processvideopassword"
 log="/data/logs/processVideo.log"
