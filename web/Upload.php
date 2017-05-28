@@ -43,18 +43,10 @@ if ($SessionIsVerified == "1") {
 			setMessage($uploadMessage,"UploadPage.php");
 		// if everything is ok, try to upload file
 		} elseif (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-			//Here, the upload went through, begin importing the sql file.
-
 
 			// Process the file, background it.
 			exec("$processScript $target_file $UserID &");
-
-
-			if ($importResult == "0") {
-				setMessage("Upload successful. Your video should be available in a few minutes.","UploadPage.php");
-			} else {
-				setMessage("Upload failed.","UploadPage.php");
-			}
+			setMessage("Upload successful. Your video should be available in a few minutes.","UploadPage.php");
 
 
 		} else {
