@@ -41,7 +41,7 @@ if [[ -z $sha256sum ]]; then
     exit
 fi
 
-if [[ -f $cut ]]; then
+if [[ -z $cut ]]; then
     echo "cut not available"
     exit
 fi
