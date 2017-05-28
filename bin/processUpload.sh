@@ -74,39 +74,38 @@ options="$options -D $database -e"
 
 #hash the file.
 sum=$( $sha256sum $file | $cut -d' ' -f1)
-
+filename=$(basename "$file")
+extension="${filename##*.}"
 
 if [[ "${#sum}" != "64" ]]; then
     #Sum is not 64 characters? Exit.
     echo "sum is not 64 characters, was ${#sum}" >> $log
     exit
+else
+    vID="${sum}.${extension}"
 fi
 
 
 #Store it into the DB.
-$mysql $options "INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")"
+$mysql $options "INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")"
 result=$?
 if [[ "$result" != "0" ]]; then
     #Insert failed? Exit.
-    echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")" >> $log
+    echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")" >> $log
     exit
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")"
 result=$?
 if [[ "$result" != "0" ]]; then
-    echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")" >> $log
+    echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")" >> $log
     #Insert failed? Exit.
     exit
 fi
 
 
 #Move the file into place.
-
-filename=$(basename "$file")
-extension="${filename##*.}"
-
-mv $file ${videoDir}/${sum}.${extension}
-#echo "mv $file ${videoDir}/${sum}.${extension}" >> $log
+mv $file ${videoDir}/${vID}
+#echo "mv $file ${videoDir}/${vID}" >> $log
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
     echo "Move failed" >> $log
