@@ -3,16 +3,19 @@
 file=$1
 if [[ -z $file ]]; then
     #No file passed? Exit.
+    echo "No file passed"
     exit
 fi
 uID=$2
 if [[ -z $uID ]]; then
     #No user passed? Exit.
+    "No uID passed"
     exit
 fi
 
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
+    echo "File doesn't exist"
     exit
 fi
 
@@ -25,6 +28,24 @@ mysqlpass="processvideopassword"
 mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
+
+
+if [[ -z $mysql ]]; then
+    #mysql not present.
+    echo "mysql not available"
+    exit
+fi
+
+if [[ -z $sha256sum ]]; then
+    echo "sha256sum not available"
+    exit
+fi
+
+if [[ -f $cut ]]; then
+    echo "cut not available"
+    exit
+fi
+
 
 #Set mysql options.
 options="-sN"
@@ -46,6 +67,7 @@ sum=$( $sha256sum $file | $cut -d' ' -f1)
 
 if [[ "${#sum}" != "256" ]]; then
     #Sum is not 256 characters? Exit.
+    echo "sum is not 256 characters, was ${#sum}"
     exit
 fi
 
@@ -54,10 +76,12 @@ fi
 $mysql $options "INSERT INTO `Videos` (`vID`) VALUES (\"${sum}\")"
 if [[ "$?" != 0 ]]; then
     #Insert failed? Exit.
+    echo "Insert into VIdeos failed"
     exit
 fi
 $mysql $options "INSERT INTO `UserVideoAssoc` (`vID`,`uID`) VALUES (\"${sum}\",\"${uID}\")"
 if [[ "$?" != 0 ]]; then
+    echo "Insert into UserVideoAssoc failed"
     #Insert failed? Exit.
     exit
 fi
@@ -67,6 +91,7 @@ fi
 mv $file $videoDir
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
+    echo "Move failed"
     exit
 fi
 

@@ -10,8 +10,6 @@ if ($SessionIsVerified == "1") {
 		$uploadOk = 1;
 		$fileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		$fileType = trim($fileType);
-echo "target_file = $target_file<br>\n";
-echo "fileType = $fileType<br>\n";
 		//empty message variable for errors.
 		$uploadMessage = "";
 
@@ -33,10 +31,10 @@ echo "fileType = $fileType<br>\n";
 
 
 		// Allow certain file formats
-		if($fileType == "mp4" || $fileType == "webm") {
-			$uploadOk = 0;
-			$uploadMessage .= "Sorry, only mp4 and webm files are allowed.<br>You uploaded: $fileType";
-		}
+		//if($fileType == "mp4" || $fileType == "webm") {
+		//	$uploadOk = 0;
+		//	$uploadMessage .= "Sorry, only mp4 and webm files are allowed.<br>You uploaded: $fileType";
+		//}
 
 
 		// Check if $uploadOk is set to 0 by an error
