@@ -31,11 +31,11 @@ if ($SessionIsVerified == "1") {
             } else {
                 // Error
                 $link->close();
-                setMessage($SiteErrorMessage,"verifiedPlayer.php");
+                setMessage($SiteErrorMessage,"verifiedPlayer.php?v=$v");
             }
         } else {
             $link->close();
-            setMessage($invalidData,"verifiedPlayer.php");
+            setMessage($invalidData,"verifiedPlayer.php?v=$v");
         }
     }
 }

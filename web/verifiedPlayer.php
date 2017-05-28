@@ -3,7 +3,12 @@
 include 'vars.php';
 include 'verifysession.php';
 
-$v = $_REQUEST['v'];
+if (isset($_REQUEST['v'])) {
+    $v = $_REQUEST['v'];
+} else {
+    $NextURL="jane.php";
+    header("Location: $NextURL");
+}
 $file = pathinfo($v, PATHINFO_FILENAME);
 $ext = pathinfo($v, PATHINFO_EXTENSION);
 
