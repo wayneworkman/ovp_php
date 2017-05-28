@@ -6,9 +6,7 @@ if ($SessionIsVerified == "1") {
 		include 'functions.php';
 
 		if (!isset($_REQUEST['vTitle'])) {
-			$uploadOk = 0;
-                        $uploadMessage .= "<br>Sorry, a video title is required." ;
-			exit;
+			setMessage("Sorry, a video title is required.","UploadPage.php");
                 }
 		$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
 		$target_dir = "$tempDir/";
@@ -50,8 +48,9 @@ if ($SessionIsVerified == "1") {
 		} elseif (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
 			// Process the file, background it.
-			exec("$processScript \"$target_file\" \"$vTitle\" \"$UserID\" &");
-			setMessage("Upload successful. Your video should be available in a few moments.","UploadPage.php");
+			$command = "$processScript '$target_file' '$vTitle' '$UserID' &");
+			shell_exec($command);
+			setMessage("Upload successful. Your video should be available in a few moments.<br>$processScript '$target_file' '$vTitle' '$UserID' &","UploadPage.php");
 
 
 		} else {
