@@ -2,7 +2,6 @@
 include 'vars.php';
 include 'verifysession.php';
 if ($SessionIsVerified == "1") {
-	if ($isAdministrator == 1) {
 		include 'functions.php';
 		include 'connect2db.php';
 
@@ -58,12 +57,6 @@ if ($SessionIsVerified == "1") {
 		} else {
 			setMessage("Sorry, there was an error uploading your file.","UploadPage.php");
 		}
-
-	} else {
-		//Not an admin, redirect to home.
-		$NextURL="home.php";
-		header("Location: $NextURL");
-	}
 }
 ?>
 
