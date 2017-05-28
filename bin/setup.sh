@@ -11,6 +11,7 @@ checkOrInstallPackages "0"
 setupDB
 placeFiles
 restartApache
+restartMysql
 
 echo ' '
 echo ' '
