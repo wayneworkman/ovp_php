@@ -94,7 +94,7 @@ if [[ "$result" != "0" ]]; then
     echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")" >> $log
     exit
 fi
-$mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")"
+$mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")"
 result=$?
 if [[ "$result" != "0" ]]; then
     echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")" >> $log

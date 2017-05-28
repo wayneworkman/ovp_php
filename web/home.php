@@ -16,7 +16,7 @@ if ($SessionIsVerified == "1") {
         echo "</tr>\n";
         while($row = $result->fetch_assoc()) {
             echo "<tr>\n";
-            echo "<td><a href=\"verifiedPlayer.php?v=$vID\">" . trim($row['vTitle']) . "</a></td>\n";
+            echo "<td><a href=\"verifiedPlayer.php?v=" . trim($row['vID']) . "\">" . trim($row['vTitle']) . "</a></td>\n";
             echo "<td>" . trim($row['uploadDate']) . "</td>\n";
             echo "</tr>\n";
         }
