@@ -9,6 +9,7 @@ $ext = pathinfo($v, PATHINFO_EXTENSION);
 
 if ($SessionIsVerified == "1") {
     include 'head.php';
+    echo "<div>\n";
     echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
     echo "<br><br>\n";
     echo "Public link:<br>\n";
@@ -20,6 +21,7 @@ if ($SessionIsVerified == "1") {
     echo "html5:<br>\n";
     echo "&lt;video controls autoplay preload=\"auto\" src=\"$domainName/stream.php?v=$v\" width=\"60%\"&gt;&lt;/video&gt";
     echo "<br><br>";
+    echo "</div>\n";
     echo "</body></html>\n";
 }
 ?>

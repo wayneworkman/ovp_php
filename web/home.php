@@ -5,8 +5,11 @@ if ($SessionIsVerified == "1") {
     include 'head.php';
     include 'connect2db.php';
     echo "<div>\n";
-
-    $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') ORDER BY `uploadDate` DESC";
+    if ($isAdministrator == 1) {
+        $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` ORDER BY `uploadDate` DESC";
+    } else {
+        $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') ORDER BY `uploadDate` DESC";
+    }
     //echo "$sql<br>\n";
     $result = $link->query($sql);
     if ($result->num_rows > 0) {
