@@ -48,6 +48,7 @@ placeFiles() {
     mkdir -p /data/videos
     mkdir -p /data/uploads
     mkdir -p /data/scripts
+    mkdir -p /data/logs
     if [[ -e /data/scripts/processUpload.sh ]]; then
         rm -f /data/scripts/processUpload.sh
     fi
