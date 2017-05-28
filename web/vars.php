@@ -16,11 +16,6 @@ $tempDir = "/data/uploads";
 $videoDir = "/data/videos";
 $processScript = "/data/scripts/processUpload.sh";
 
-//PHP settings
-ini_set('upload_max_filesize', '5G');
-ini_set('post_max_size', '5G');
-ini_set('max_input_time', 30000);
-ini_set('max_execution_time', 30000);
 
 // Messages. 
 $SiteErrorMessage = "ERROR: There was a site problem. Report this to your administrator and try again later.";
