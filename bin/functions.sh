@@ -38,6 +38,7 @@ placeFiles() {
     dots "Updating web files"
     rm -f /var/www/html/*
     cp ${cwd}/../web/* /var/www/html
+    cp ${cwd}/../web/.htaccess /var/www/html
     source "/etc/os-release"
     if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
         webpermissions="apache:apache"
