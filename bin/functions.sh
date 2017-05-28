@@ -61,20 +61,23 @@ restartApache() {
     dots "Configuring Apache"
     if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
         systemctl restart httpd > /dev/null 2>&1
-        [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
+        [[ $? -eq 0 ]] && echo "Success" || echo "Failed"
         systemctl enable httpd > /dev/null 2>&1
     elif [[ "$ID" == "debian" ]]; then
         systemctl restart apache2 > /dev/null 2>&1
-        [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
+        [[ $? -eq 0 ]] && echo "Success" || echo "Failed"
         systemctl enable apache2 > /dev/null 2>&1
     fi
 }
 restartMysql() {
+    dots "Configuring MySQL"
     if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
         systemctl restart mariadb > /dev/null 2>&1
+        [[ $? -eq 0 ]] && echo "Success" || echo "Failed"
         systemctl enable mariadb > /dev/null 2>&1
     elif [[ "$ID" == "debian" ]]; then
         systemctl restart mysql > /dev/null 2>&1
+        [[ $? -eq 0 ]] && echo "Success" || echo "Failed"
         systemctl enable mysql > /dev/null 2>&1
     fi
 }
