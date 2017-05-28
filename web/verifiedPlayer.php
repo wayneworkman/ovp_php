@@ -12,6 +12,11 @@ if ($SessionIsVerified == "1") {
     echo "<div>\n";
     echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
     echo "<br><br>\n";
+    echo "<form action=\"deleteVideo.php\" method=\"post\">\n";
+    echo "<input type=\"checkbox\" name=\"ConfirmDelete\" value=\"Confirmed\">Confirm Delete<br>\n";
+    echo "<input type=\"submit\" value=\"Delete this video!\">\n";
+    echo "</form>\n";
+    echo "<br><br>\n";
     echo "Public link:<br>\n";
     echo "$domainName/player.php?v=$file.$ext";
     echo "<br><br>\n";

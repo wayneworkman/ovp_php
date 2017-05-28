@@ -46,6 +46,7 @@ placeFiles() {
     fi
     chown -R $webpermissions /var/www/html
     mkdir -p /data/videos
+    mkdir -p /data/deleted
     mkdir -p /data/uploads
     mkdir -p /data/scripts
     mkdir -p /data/logs
