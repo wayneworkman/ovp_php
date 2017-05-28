@@ -3,16 +3,13 @@
 include 'vars.php';
 include 'verifysession.php';
 
-if (isset($_REQUEST['v'])) {
-    $v = $_REQUEST['v'];
-} else {
-    $NextURL="home.php";
-    header("Location: $NextURL");
-}
-$file = pathinfo($v, PATHINFO_FILENAME);
-$ext = pathinfo($v, PATHINFO_EXTENSION);
 
 if ($SessionIsVerified == "1") {
+    if (isset($_REQUEST['v'])) {
+        $v = $_REQUEST['v'];
+        $file = pathinfo($v, PATHINFO_FILENAME);
+        $ext = pathinfo($v, PATHINFO_EXTENSION);
+    }
     include 'connect2db.php';
     include 'head.php';
     include 'functions.php';

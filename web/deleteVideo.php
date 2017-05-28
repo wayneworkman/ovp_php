@@ -19,23 +19,25 @@ if ($SessionIsVerified == "1") {
         } else {
             $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` = '$v' AND `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') LIMIT 1";
         }
+//        setMessage($sql,"home.php");
+
+
         $result = $link->query($sql);
         if ($result->num_rows > 0) {
             #Here owership or adminship is confirmed. Delete association row, then video row.
-            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'";
+            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` = '$v'";
             $link->query($sql);
-            $sql = "DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
+            $sql = "DELETE FROM `Videos` WHERE `vID` = '$v'";
             $link->query($sql);
-            $link->close();
-            setMessage("Successful deletion","home.php");
+//            setMessage("Successful deletion","home.php");
         } else {
             // Error
             $link->close();
-            setMessage($SiteErrorMessage,"verifiedPlayer.php?v=$v");
+//            setMessage("Delete failed","home.php?v=$v");
         }
     } else {
         $link->close();
-        setMessage($invalidData,"verifiedPlayer.php?v=$v");
+//        setMessage($invalidData,"home.php?v=$v");
     }
 }
 ?>
