@@ -6,7 +6,7 @@ include 'verifysession.php';
 if (isset($_REQUEST['v'])) {
     $v = $_REQUEST['v'];
 } else {
-    $NextURL="jane.php";
+    $NextURL="home.php";
     header("Location: $NextURL");
 }
 $file = pathinfo($v, PATHINFO_FILENAME);
