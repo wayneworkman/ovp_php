@@ -5,6 +5,12 @@ if ($SessionIsVerified == "1") {
 	if ($isAdministrator == 1) {
 		include 'functions.php';
 
+		if !isset($_REQUEST['vTitle']) {
+			$uploadOk = 0;
+                        $uploadMessage .= "<br>Sorry, a video title is required." ;
+			exit;
+                }
+		$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
 		$target_dir = "$tempDir/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 		$uploadOk = 1;
@@ -44,7 +50,7 @@ if ($SessionIsVerified == "1") {
 		} elseif (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
 			// Process the file, background it.
-			exec("$processScript $target_file $UserID &");
+			exec("$processScript \"$target_file\" \"$vTitle\" \"$UserID\" &");
 			setMessage("Upload successful. Your video should be available in a few moments.","UploadPage.php");
 
 

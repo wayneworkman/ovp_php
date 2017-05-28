@@ -20,12 +20,20 @@ if [[ -z $file ]]; then
     exit
 fi
 
-uID=$2
+vTitle=$2
+if [[ -z $vTitle ]]; then
+    #No vTitle passed? Exit.
+    "No vTitle passed" >> $log
+    exit
+fi
+
+uID=$3
 if [[ -z $uID ]]; then
     #No user passed? Exit.
     "No uID passed" >> $log
     exit
 fi
+
 
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
@@ -76,10 +84,10 @@ fi
 
 
 #Store it into the DB.
-$mysql $options "INSERT INTO Videos (vID) VALUES (\"${sum}\")"
+$mysql $options "INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")"
 if [[ "$?" != "0" ]]; then
     #Insert failed? Exit.
-    echo "Insert into Videos failed, exit code $? : INSERT INTO Videos (vID) VALUES (\"${sum}\")" >> $log
+    echo "Insert into Videos failed, exit code $? : INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")" >> $log
     exit
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")"
