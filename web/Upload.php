@@ -48,9 +48,9 @@ if ($SessionIsVerified == "1") {
 		} elseif (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
 			// Process the file, background it.
-			$command = "$processScript '$target_file' '$vTitle' '$UserID' &");
+			$command = "$processScript '$target_file' '$vTitle' '$UserID' &";
 			shell_exec($command);
-			setMessage("Upload successful. Your video should be available in a few moments.<br>$processScript '$target_file' '$vTitle' '$UserID' &","UploadPage.php");
+			setMessage("Upload successful. Your video should be available in a few moments.<br>$command","UploadPage.php");
 
 
 		} else {
