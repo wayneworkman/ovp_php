@@ -17,6 +17,7 @@ $SiteName = "Perpetuum";
 $home = "home.php"; //This is the home file.
 $tempDir = "/data/uploads";
 $videoDir = "/data/videos";
+$deleteDir = "/data/deleted";
 $processScript = "/data/scripts/processUpload.sh";
 
 

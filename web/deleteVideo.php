@@ -28,7 +28,7 @@ if ($SessionIsVerified == "1") {
             $link->query($sql);
             $sql = "DELETE FROM `Videos` WHERE `vID` = '$v'";
             $link->query($sql);
-            unlink($videoDir/$v);
+            rename($videoDir/$v, $deleteDir/$v);
             setMessage("Successful deletion","home.php");
         } else {
             // Error
