@@ -5,7 +5,7 @@ if ($SessionIsVerified == "1") {
 	if ($isAdministrator == 1) {
 		include 'functions.php';
 
-		if !isset($_REQUEST['vTitle']) {
+		if (!isset($_REQUEST['vTitle'])) {
 			$uploadOk = 0;
                         $uploadMessage .= "<br>Sorry, a video title is required." ;
 			exit;
