@@ -24,7 +24,7 @@ if ($SessionIsVerified == "1") {
             #Here owership or adminship is confirmed. Delete association row, then video row.
             $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'; DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
         
-            if ($link->query($sql)) {
+            if ($link->multi_query($sql)) {
                 // good, go home.
                 $NextURL="home.php";
                 header("Location: $NextURL");
