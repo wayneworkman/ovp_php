@@ -19,7 +19,6 @@ if ($SessionIsVerified == "1") {
         } else {
             $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` = '$v' AND `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') LIMIT 1";
         }
-//        setMessage($sql,"home.php");
 
 
         $result = $link->query($sql);
@@ -29,15 +28,16 @@ if ($SessionIsVerified == "1") {
             $link->query($sql);
             $sql = "DELETE FROM `Videos` WHERE `vID` = '$v'";
             $link->query($sql);
-//            setMessage("Successful deletion","home.php");
+            unlink($videoDir/$v);
+            setMessage("Successful deletion","home.php");
         } else {
             // Error
             $link->close();
-//            setMessage("Delete failed","home.php?v=$v");
+            setMessage("Delete failed","verifiedPlayer.php?v=$v");
         }
     } else {
         $link->close();
-//        setMessage($invalidData,"home.php?v=$v");
+        setMessage($invalidData,"verifiedPlayer.php?v=$v");
     }
 }
 ?>
