@@ -12,7 +12,11 @@ if ($SessionIsVerified == "1") {
     }
 
     if ($ConfirmDelete == "Confirmed") {
-    $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v' AND `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID')";
+    if ($isAdministrator == 1) {
+        $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'";
+    } else {
+        $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v' AND `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID')";
+    }
     if ($link->query($sql)) {
         // good, send back to usernameTracking.
             $NextURL="home.php";
@@ -28,3 +32,4 @@ if ($SessionIsVerified == "1") {
     }
 }
 ?>
+
