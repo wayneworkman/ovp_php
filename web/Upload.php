@@ -7,8 +7,9 @@ if ($SessionIsVerified == "1") {
 
 		if (!isset($_REQUEST['vTitle'])) {
 			setMessage("Sorry, a video title is required.","UploadPage.php");
-                }
-		$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
+                } else {
+			$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
+		}
 		$target_dir = "$tempDir/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 		$uploadOk = 1;
