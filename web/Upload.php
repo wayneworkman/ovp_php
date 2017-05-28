@@ -52,7 +52,7 @@ if ($SessionIsVerified == "1") {
 			// Process the file, background it.
 			$command = "$processScript '$target_file' '$vTitle' '$UserID' &";
 			shell_exec($command);
-			setMessage("Upload successful. Your video should be available in a few moments.<br>$command","UploadPage.php");
+			setMessage("Upload successful. Your video should be available in a moment. Look for it in Home.","UploadPage.php");
 
 
 		} else {
