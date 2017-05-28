@@ -1,5 +1,14 @@
 <?php
 
+include 'vars.php';
+include 'verifysession.php';
+if ($SessionIsVerified == "1") {
+    include 'head.php';
+}
+
+
+
+
 $file = $_REQUEST['file'];
 $ext = $_REQUEST['ext'];
 $file = pathinfo($file, PATHINFO_FILENAME);
