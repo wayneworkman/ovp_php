@@ -10,7 +10,7 @@ $database = 'ovp';
 // Various site settings.
 $SessionTimeout = 900; // measured in seconds.
 $PasswordDefault = "changeme";
-$SiteName = "MySite";
+$SiteName = "Perpetuum";
 $home = "home.php"; //This is the home file.
 $tempDir = "/data/uploads";
 $videoDir = "/data/videos";
