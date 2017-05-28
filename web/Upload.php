@@ -32,7 +32,7 @@ if ($SessionIsVerified == "1") {
 
 
 		// Allow certain file formats
-		if($fileType != "mp4" || $fileType != "webm") {
+		if($fileType == "mp4" || $fileType == "webm") {
 			$uploadOk = 0;
 			$uploadMessage .= "Sorry, only mp4 and webm files are allowed.<br>You uploaded: $fileType";
 		}
