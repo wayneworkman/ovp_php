@@ -79,12 +79,12 @@ fi
 $mysql $options "INSERT INTO Videos (vID) VALUES (\"${sum}\")"
 if [[ "$?" != 0 ]]; then
     #Insert failed? Exit.
-    echo "Insert into VIdeos failed" >> $log
+    echo "Insert into Videos failed: INSERT INTO Videos (vID) VALUES (\"${sum}\")" >> $log
     exit
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")"
 if [[ "$?" != 0 ]]; then
-    echo "Insert into UserVideoAssoc failed" >> $log
+    echo "Insert into UserVideoAssoc failed: INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")" >> $log
     #Insert failed? Exit.
     exit
 fi
