@@ -22,7 +22,7 @@ if ($SessionIsVerified == "1") {
         $result = $link->query($sql);
         if ($result->num_rows > 0) {
             #Here owership or adminship is confirmed. Delete association row, then video row.
-            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v';DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
+            $sql = "DELETE FROM `UserVideoAssoc` WHERE `vID` == '$v'; DELETE FROM `Videos;DELETE FROM `Videos` WHERE `vID` = '$v'";
         
             if ($link->query($sql)) {
                 // good, go home.
