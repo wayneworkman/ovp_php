@@ -9,8 +9,16 @@ $sql = "SELECT BlockedIP FROM blockedIPs WHERE BlockedIP = '$REMOTE_ADDR' LIMIT 
 $result = $link->query($sql);
 if ($result->num_rows == 0) {
 	// Get remote info and fingerprint.
-	$UserFingerprint = $link->real_escape_string($_SESSION['fingerprint']);
-	$REQUEST_TIME = $link->real_escape_string($_SERVER ['REQUEST_TIME']);
+        if (isset($_SESSION['fingerprint']))
+        {
+	    $UserFingerprint = $link->real_escape_string($_SESSION['fingerprint']);
+        } else {
+            $UserFingerprint = "0"
+        }
+        if (isset($_SERVER['HTTP_USER_AGENT']))
+        {
+	    $REQUEST_TIME = $link->real_escape_string($_SERVER ['REQUEST_TIME']);
+        }
 	if (isset($_SERVER["HTTP_USER_AGENT"])) {
         	$HTTP_USER_AGENT = $link->real_escape_string($_SERVER ['HTTP_USER_AGENT']);
 	} else {
@@ -25,12 +33,12 @@ if ($result->num_rows == 0) {
 			$oldREQUEST_TIME = $row["REQUEST_TIME"];
 		}
 	} else {
-	// No matching session info, send to login screen.
-	session_unset();
-	session_destroy();
-	$link->close();
-	$NextURL="login.php";
-	header("Location: $NextURL");
+            // No matching session info, send to login screen.
+	    session_unset();
+	    session_destroy();
+	    $link->close();
+	    $NextURL="login.php";
+	    header("Location: $NextURL");
 	}
 	$sql = "SELECT UserEnabled FROM Users WHERE UserID = '$UserID' LIMIT 1";
 	$result = $link->query($sql);
@@ -39,13 +47,13 @@ if ($result->num_rows == 0) {
 			$UserEnabled = $row["UserEnabled"];
 		}
 	} else {
-	// No matching user info, send to login screen.
-	// FIY this particular bit of code should never even be executed logically.
-	session_unset();
-	session_destroy();
-	$link->close();
-	$NextURL="login.php";
-	header("Location: $NextURL");
+	    // No matching user info, send to login screen.
+	    // FIY this particular bit of code should never even be executed logically.
+	    session_unset();
+	    session_destroy();
+	    $link->close();
+	    $NextURL="login.php";
+	    header("Location: $NextURL");
 	}
 	$RawFingerprint = $UserID . $REMOTE_ADDR . $HTTP_USER_AGENT . $Random_String;
 	if (password_verify($RawFingerprint, $UserFingerprint) && (($REQUEST_TIME - $oldREQUEST_TIME) <= $SessionTimeout) && ($UserEnabled == "1")) {
@@ -85,14 +93,14 @@ if ($result->num_rows == 0) {
 		header("Location: $NextURL");
 	}
 } else {
-// IP is blocked.
-$link->close();
-session_unset();
-session_destroy();
-session_start();
-$_SESSION['badLoginAttempt'] = "1";
-$_SESSION['ErrorMessage'] = $IPBlockedMessage;
-$NextURL="login.php";
-header("Location: $NextURL");
+    // IP is blocked.
+    $link->close();
+    session_unset();
+    session_destroy();
+    session_start();
+    $_SESSION['badLoginAttempt'] = "1";
+    $_SESSION['ErrorMessage'] = $IPBlockedMessage;
+    $NextURL="login.php";
+    header("Location: $NextURL");
 }
 ?>
