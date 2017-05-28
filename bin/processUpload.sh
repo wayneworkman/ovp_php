@@ -73,13 +73,13 @@ fi
 
 
 #Store it into the DB.
-$mysql $options "INSERT INTO `Videos` (`vID`) VALUES (\"${sum}\")"
+$mysql $options "INSERT INTO Videos (vID) VALUES (\"${sum}\")"
 if [[ "$?" != 0 ]]; then
     #Insert failed? Exit.
     echo "Insert into VIdeos failed"
     exit
 fi
-$mysql $options "INSERT INTO `UserVideoAssoc` (`vID`,`uID`) VALUES (\"${sum}\",\"${uID}\")"
+$mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")"
 if [[ "$?" != 0 ]]; then
     echo "Insert into UserVideoAssoc failed"
     #Insert failed? Exit.
