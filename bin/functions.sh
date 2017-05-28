@@ -62,7 +62,7 @@ checkOrInstallPackages() {
     local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
-        dots "Installing package $package"
+        dots "Installing packages"
     fi
     local useYum=$(command -v yum)
     local useDnf=$(command -v dnf)
@@ -78,7 +78,7 @@ checkOrInstallPackages() {
             [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
         fi
     elif [[ -e "$useAptGet" ]]; then
-        apt-get -y install $debianPackages > /dev/null 2>&1
+        DEBIAN_FRONTEND=noninteractive apt-get -y install $debianPackages > /dev/null 2>&1
         if [[ "$silent" -eq 0 ]]; then
             [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
         fi
