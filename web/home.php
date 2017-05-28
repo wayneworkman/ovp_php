@@ -4,6 +4,7 @@ include 'verifysession.php';
 if ($SessionIsVerified == "1") {
     include 'head.php';
     include 'connect2db.php';
+    echo "<div>\n";
 
     $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') ORDER BY `uploadDate` DESC";
     //echo "$sql<br>\n";
@@ -25,8 +26,6 @@ if ($SessionIsVerified == "1") {
     } else {
         echo "You have not uploaded any videos yet.";
     }
-    
-
-
+    echo "</div>\n";
 }
 ?>
