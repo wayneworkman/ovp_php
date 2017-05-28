@@ -28,5 +28,6 @@ if ($SessionIsVerified == "1") {
     echo "</title>\n";
     echo "<video controls autoplay preload=\"auto\" src=\"stream.php?file=$file&ext=$ext\" width=\"60%\"></video>\n";
     echo "</body></html>\n";
+}
 ?>
 
