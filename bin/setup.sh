@@ -19,6 +19,7 @@ updateServer
 checkOrInstallPackages "0"
 setupDB
 placeFiles
+configurePHP
 configureApache
 configureMysql
 
