@@ -85,14 +85,16 @@ fi
 
 #Store it into the DB.
 $mysql $options "INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")"
-if [[ "$?" != "0" ]]; then
+result=$?
+if [[ "$result" != "0" ]]; then
     #Insert failed? Exit.
-    echo "Insert into Videos failed, exit code $? : INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")" >> $log
+    echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${sum}\",\"${vTitle}\")" >> $log
     exit
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")"
-if [[ "$?" != "0" ]]; then
-    echo "Insert into UserVideoAssoc failed, exit code $? : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")" >> $log
+result=$?
+if [[ "$result" != "0" ]]; then
+    echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${sum}\",\"${uID}\")" >> $log
     #Insert failed? Exit.
     exit
 fi
