@@ -57,6 +57,13 @@ checkOS() {
         exit
     fi
 }
+restartApache() {
+    if [[ "$ID" == "centos" || "$ID" == "rhel" || "$ID" == "fedora" ]]; then
+        systemctl restart httpd
+    elif [[ "$ID" == "debian" ]]; then
+        systemctl restart apache2
+    fi
+}
 checkOrInstallPackages() {
     local rhelPackages="mariadb-server php httpd php-mysqlnd"
     local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt"

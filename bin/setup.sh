@@ -10,6 +10,7 @@ updateServer
 checkOrInstallPackages "0"
 setupDB
 placeFiles
+restartApache
 
 echo ' '
 echo ' '
