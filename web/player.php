@@ -2,23 +2,22 @@
 
 $file = $_REQUEST['file'];
 $ext = $_REQUEST['ext'];
-$dirname = pathinfo($file, PATHINFO_DIRNAME);
-$filename = pathinfo($file, PATHINFO_FILENAME);
-$description = $dirname . "/" . $filename . ".description";
-
+$file = pathinfo($file, PATHINFO_FILENAME);
+$ext = pathinfo($ext, PATHINFO_EXTENSION);
 
 echo "<html>";
-echo "<head><style> p.description { width: 75em; border: 2px solid #000000; word-wrap: break-word; } </style></head>";
 echo "<body>\n";
 echo "<title>\n";
 echo "$filename\n";
 echo "</title>\n";
-echo "<h3>$filename</h3>\n";
 echo "<video controls autoplay preload=\"auto\" src=\"stream.php?file=$file&ext=$ext\" width=\"60%\"></video>\n";
 echo "<br><br>\n";
-echo "<p class=\"description\">\n";
-echo file_get_contents($description);
-echo "</p>\n";
+echo "iframe:<br>\n";
+echo "&lt;iframe width=\"560\" height=\"315\" src=\"http://perpetuum.io/youtube/stream.php?file=$file&ext=$ext\" frameborder=\"0\" allowfullscreen&gt;&lt;/iframe&gt";
+echo "<br><br>";
+echo "html5:<br>\n";
+echo "&lt;video controls autoplay preload=\"auto\" src=\"http://perpetuum.io/youtube/stream.php?file=$file&ext=$ext\" width=\"60%\"&gt;&lt;/video&gt";
+echo "<br><br>";
 echo "</body></html>\n";
 ?>
 

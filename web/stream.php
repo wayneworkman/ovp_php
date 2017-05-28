@@ -1,7 +1,12 @@
 <?php
 
+include 'vars.php';
 $file = $_REQUEST['file'];
 $ext = $_REQUEST['ext'];
+$file = pathinfo($file, PATHINFO_FILENAME);
+$ext = pathinfo($ext, PATHINFO_EXTENSION);
+$file = "$videoDir/$file.$ext"
+
 $stream = "";
 $buffer = 102400;
 $start = -1;
