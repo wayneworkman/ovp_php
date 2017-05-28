@@ -45,7 +45,7 @@ if ($SessionIsVerified == "1") {
 
 			// Process the file, background it.
 			exec("$processScript $target_file $UserID &");
-			setMessage("Upload successful. Your video should be available in a few minutes.","UploadPage.php");
+			setMessage("Upload successful. Your video should be available in a few moments.","UploadPage.php");
 
 
 		} else {
