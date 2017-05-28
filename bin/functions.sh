@@ -25,6 +25,7 @@ banner() {
     echo "                                                                               ";
     echo "    Open Video Platform, making video hosting easy."
     echo " "
+    echo "    Creator: Wayne Workman"
     echo " "
     echo " "
 }
