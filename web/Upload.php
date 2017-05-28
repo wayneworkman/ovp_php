@@ -4,6 +4,7 @@ include 'verifysession.php';
 if ($SessionIsVerified == "1") {
 	if ($isAdministrator == 1) {
 		include 'functions.php';
+		include 'connect2db.php';
 
 		if (!isset($_REQUEST['vTitle'])) {
 			setMessage("Sorry, a video title is required.","UploadPage.php");
