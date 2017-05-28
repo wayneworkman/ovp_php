@@ -3,6 +3,7 @@ include 'vars.php';
 include 'verifysession.php';
 if ($SessionIsVerified == "1") {
     include 'head.php';
+    include 'functions.php';
     include 'connect2db.php';
     if (isset($_REQUEST['ConfirmDelete'])) {
         $ConfirmDelete = $link->real_escape_string(trim($_REQUEST['ConfirmDelete']));
