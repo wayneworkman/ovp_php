@@ -1,0 +1,4 @@
+mysqlUser=""
+mysqlPass=""
+mysqlHost=""
+
