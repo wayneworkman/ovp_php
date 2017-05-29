@@ -10,7 +10,8 @@ if ($SessionIsVerified == "1") {
 		$uploadOk = 1;
 		$fileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		$fileType = trim($fileType);
-
+echo "target_file = $target_file<br>\n";
+echo "fileType = $fileType<br>\n";
 		//empty message variable for errors.
 		$uploadMessage = "";
 
