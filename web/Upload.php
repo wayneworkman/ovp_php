@@ -51,7 +51,7 @@ if ($SessionIsVerified == "1") {
 
 
 	// Allow certain file formats
-	if($fileType == "mp4" && $fileType == "webm" && $fileType == "ovg") {
+	if($fileType != "mp4" && $fileType != "webm" && $fileType != "ovg") {
 		setMessage("Sorry, only mp4 and webm files are allowed. You uploaded: $fileType","UploadPage.php");
 		die;
 	}
