@@ -7,16 +7,22 @@ if ($SessionIsVerified == "1") {
 
 		if (!isset($_REQUEST['vTitle'])) {
 			setMessage("Sorry, a video title is required.","UploadPage.php");
+			$NextURL = "UploadPage.php";
+			header("Location: $NextURL");
                 } else {
 			$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
 		}
 		if (isset($_REQUEST['AcceptAUP'])) {
 			$acceptAUP = $link->real_escape_string(trim($_REQUEST['AcceptAUP']));
                         if ($acceptAUP != "Accepted") {
-				setMessage("Sorry, you must accept the Acceptable Use Policy in order to upload.","UploadPage.php");
+				setMessage("Sorry, you must accept the Acceptable Use Policy.","UploadPage.php");
+				$NextURL = "UploadPage.php";
+				header("Location: $NextURL");
 			}
 		} else {
-			setMessage("Sorry, you must accept the Acceptable Use Policy in order to upload.","UploadPage.php");
+			setMessage("Sorry, you must accept the Acceptable Use Policy.","UploadPage.php");
+			$NextURL = "UploadPage.php";
+			header("Location: $NextURL");
 		}
 		$target_dir = "$tempDir/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
