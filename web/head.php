@@ -111,6 +111,7 @@ echo "    <li class=\"dropdown\">\n";
 echo "    <a href=\"#\" class=\"dropbtn\">Docs</a>\n";
 echo "    <div class=\"dropdown-content\">\n";
 echo "    <a href=\"showLicense.php\">License</a>\n";
+echo "    <a href=\"showAUP.php\">Acceptable Use Policy</a>\n";
 echo "    </div>\n";
 echo "   </li>\n";
 
