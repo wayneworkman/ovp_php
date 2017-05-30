@@ -9,6 +9,7 @@ if ($SessionIsVerified == "1") {
 			setMessage("Sorry, a video title is required.","UploadPage.php");
 			$NextURL = "UploadPage.php";
 			header("Location: $NextURL");
+			die;
                 } else {
 			$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
 		}
@@ -18,11 +19,13 @@ if ($SessionIsVerified == "1") {
 				setMessage("Sorry, you must accept the Acceptable Use Policy.","UploadPage.php");
 				$NextURL = "UploadPage.php";
 				header("Location: $NextURL");
+				die;
 			}
 		} else {
 			setMessage("Sorry, you must accept the Acceptable Use Policy.","UploadPage.php");
 			$NextURL = "UploadPage.php";
 			header("Location: $NextURL");
+			die;
 		}
 		$target_dir = "$tempDir/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -46,6 +49,9 @@ if ($SessionIsVerified == "1") {
 		if ($_FILES["fileToUpload"]["size"] > 5*GB) {
 			$uploadOk = 0;
 			$uploadMessage .= "<br>Sorry, your file is too large. Limits are currently 5 GB." ;
+			$NextURL = "UploadPage.php";
+                        header("Location: $NextURL");
+                        die;
 		}
 
 
@@ -70,6 +76,9 @@ if ($SessionIsVerified == "1") {
 
 		} else {
 			setMessage("Sorry, there was an error uploading your file.","UploadPage.php");
+			$NextURL = "UploadPage.php";
+                        header("Location: $NextURL");
+                        die;
 		}
 }
 ?>
