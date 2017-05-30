@@ -7,7 +7,7 @@ Perpetuum, its parent, subsidiaries, divisions and related web sites (hereinafte
 <p>The Services enable you to interact with users of the Internet and retrieve and send vast amounts of commercial information. Site provides the Services with the goals of (a) ensuring security, reliability and privacy of the Services and the users of the Services, (b) maintaining an image and reputation of Site as a responsible provider of the Services, (c) preserving the value of Internet resources as a conduit for free expression, (d) encouraging the responsible use of Internet resources and discouraging degrading, libelous or illegal uses of such resources. Consequently, Site expects you, and all other users of the Services, to take responsibility in using the Internet with courtesy and responsibility, and be familiar with and to practice good Internet etiquette, in furtherance of the above stated goals.</p>
 <h2>2. Prohibited Conduct</h2>
 <p>You may use the Services only for lawful purposes. Transmission, distribution, sale, or storage of any material in violation of any applicable law, regulation, or the AUP is prohibited. The following non-exhaustive list details the kinds of illegal or harmful conduct that are prohibited. Site reserves the rights to restrict or prohibit any and all uses of the Services or content on your Website(s) and to remove such materials from its servers, which Site determines in its sole discretion is harmful to its servers, systems, network, reputation, good will, other Site customers, or any third party.</p>
-<ul class="legal_terms">
+<ul >
 <li><strong>Defamation.</strong><br />
 You agree not to post or transmit any content in violation of any applicable law of libel or defamation in the United States or elsewhere.</li>
 <li><strong>False Advertising.</strong><br />
@@ -45,7 +45,7 @@ Using the Services for any activity which adversely affects the ability of other
 </ul>
 <h2>3. System and Network Security and Integrity.</h2>
 <p>Violations of Site&#8217;s or any third party&#8217;s server, system or network security through the use of the Services are prohibited, and may result in criminal and civil liability. Site may investigate incidents involving such violations. Site may involve and cooperate with law enforcement if a criminal violation is suspected. Examples of server, system or network security violations include, without limitation, the following:</p>
-<ul class="legal_terms">
+<ul >
 <li><strong>Hacking.</strong><br />
 Unauthorized access to or use of data, systems, servers or networks, including any attempt to probe, scan or test the vulnerability of a system, server or network or to breach security or authentication measures without express authorization of the owner of the system, server or network.</li>
 <li><strong>Interception.</strong><br />
@@ -61,7 +61,7 @@ Failing to prevent unauthorized access to accounts, including any account passwo
 </ul>
 <h2>4. E-Mail.</h2>
 <p>The Services may be used to transmit Commercial E-mail that complies with all United States state and federal laws including, but not limited to the CAN-SPAM Act of 2003. However, you may not distribute, publish, or send any of the following types of e-mail:</p>
-<ul class="legal_terms">
+<ul >
 <li>Unsolicited promotions, advertising or solicitations (commonly referred to as &#8220;spam&#8221;) that is not compliant with the CAN-SPAM Act of 2003, including, without limitation, commercial advertising and informational announcements to those email addresses who have requested that their email addresses be opted out.</li>
 <li>Commercial promotions, advertising, solicitations, or informational announcements that contain false or misleading information in any form.</li>
 <li>Harassing e-mail, whether through language, frequency, or size of messages.</li>
