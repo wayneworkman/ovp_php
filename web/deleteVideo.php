@@ -36,6 +36,7 @@ if ($SessionIsVerified == "1") {
             if (copy("$videoDir/$v","$deleteDir/$v")) {
                 unlink("$videoDir/$v");
                 setMessage("Successful deletion","home.php");
+		die;
             } else {
                 setMessage("Delete failed","verifiedPlayer.php?v=$v");
             }
