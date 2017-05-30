@@ -10,6 +10,14 @@ if ($SessionIsVerified == "1") {
                 } else {
 			$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
 		}
+		if (isset($_REQUEST['AcceptAUP'])) {
+			$acceptAUP = $link->real_escape_string(trim($_REQUEST['AcceptAUP']));
+                        if ($acceptAUP != "Accepted") {
+				setMessage("Sorry, you must accept the Acceptable Use Policy in order to upload.","UploadPage.php");
+			}
+		} else {
+			setMessage("Sorry, you must accept the Acceptable Use Policy in order to upload.","UploadPage.php");
+		}
 		$target_dir = "$tempDir/";
 		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 		$uploadOk = 1;
