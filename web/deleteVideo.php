@@ -33,8 +33,12 @@ if ($SessionIsVerified == "1") {
             $link->query($sql);
             $sql = "DELETE FROM `Videos` WHERE `vID` = '$v'";
             $link->query($sql);
-            rename($videoDir/$v, $deleteDir/$v);
-            setMessage("Successful deletion","home.php");
+            if (copy("$videoDir/$v","$deleteDir/$v")) {
+                unlink("$videoDir/$v");
+                setMessage("Successful deletion","home.php");
+            } else {
+                setMessage("Delete failed","verifiedPlayer.php?v=$v");
+            }
         } else {
             // Error
             $link->close();
