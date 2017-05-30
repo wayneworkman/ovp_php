@@ -7,6 +7,11 @@ if ($SessionIsVerified == "1") {
     include 'functions.php';
     if (isset($_REQUEST['ConfirmDelete'])) {
         $ConfirmDelete = $link->real_escape_string(trim($_REQUEST['ConfirmDelete']));
+    } else {
+        setMessage("Delete confirmation was not checked, not doing anything.","UploadPage.php");
+        $NextURL = "UploadPage.php";
+        header("Location: $NextURL");
+        die;
     }
     if (isset($_REQUEST['v'])) {
         $v = $link->real_escape_string(trim($_REQUEST['v']));
