@@ -12,6 +12,12 @@ if ($SessionIsVerified == "1") {
 			die;
                 } else {
 			$vTitle = $link->real_escape_string(trim($_REQUEST['vTitle']));
+			if ($vTitle == "") {
+				setMessage("Sorry, a video title is required.","UploadPage.php");
+				$NextURL = "UploadPage.php";
+				header("Location: $NextURL");
+				die;
+			}
 		}
 		if (isset($_REQUEST['AcceptAUP'])) {
 			$acceptAUP = $link->real_escape_string(trim($_REQUEST['AcceptAUP']));
