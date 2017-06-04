@@ -63,7 +63,7 @@ placeFiles() {
 }
 configureFirewalld() {
     dots "Configure firewalld if present"
-    if [[ -z $(command -v firewall-cmd) ]]; then
+    if [[ -e $(command -v firewall-cmd) ]]; then
         for service in http https; do firewall-cmd --permanent --zone=public --add-service=$service; done > /dev/null 2>&1
         systemctl restart firewalld
         echo "Configured"
