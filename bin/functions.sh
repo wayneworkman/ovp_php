@@ -150,6 +150,7 @@ configureMysql() {
 }
 checkOrInstallPackages() {
     local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server"
+    local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
     local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
@@ -165,7 +166,9 @@ checkOrInstallPackages() {
         fi
     elif [[ -e "$useYum" ]]; then
         #This stuff is for later version of PHP, CentOS 7 comes with php5 as standard. We need at least php7.
-        yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils > /dev/null 2>&1
+        yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm > /dev/null 2>&1
+        yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm > /dev/null 2>&1
+        yum -y install yum-utils > /dev/null 2>&1
         subscription-manager repos --enable=rhel-7-server-optional-rpms > /dev/null 2>&1
         yum -y install $rhelPackages > /dev/null 2>&1
         if [[ "$silent" -eq 0 ]]; then
