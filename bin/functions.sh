@@ -101,6 +101,13 @@ configurePHP() {
         sed -i "s/max_execution_time = .*/max_execution_time = ${max_execution_time}/" /etc/php5/apache2/php.ini
         sed -i "s/max_input_time = .*/max_input_time = ${max_input_time}/" /etc/php5/apache2/php.ini
     fi
+    if [[ -e /etc/php.ini ]]; then
+        sed -i "s/post_max_size = .*/post_max_size = ${post_max_size}/" /etc/php5/apache2/php.ini
+        sed -i "s/upload_max_filesize = .*/upload_max_filesize = ${upload_max_filesize}/" /etc/php5/apache2/php.ini
+        sed -i "s/memory_limit = .*/memory_limit = ${memory_limit}/" /etc/php5/apache2/php.ini
+        sed -i "s/max_execution_time = .*/max_execution_time = ${max_execution_time}/" /etc/php5/apache2/php.ini
+        sed -i "s/max_input_time = .*/max_input_time = ${max_input_time}/" /etc/php5/apache2/php.ini
+    fi
     echo "Done"
 }
 configureApache() {
@@ -170,46 +177,6 @@ checkForRoot() {
         exit
     fi
 
-}
-startAndEnableService() {
-    local useSystemctl=$(command -v systemctl)
-    local useService=$(command -v service)
-    local theService="$1"
-    dots "Restarting and enabling $theService"
-    if [[ "$theService" == "mysql" || "$theService" == "mariadb" ]]; then
-        local doMysqlAndMariadb="1"
-    fi
-    if [[ -e "$useSystemctl" ]]; then
-        if [[ ! "$doMysqlAndMariadb" -eq 1 ]]; then
-            systemctl enable $theService > /dev/null 2>&1
-            systemctl restart $theService > /dev/null 2>&1
-            [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
-        else
-            systemctl enable mysql > /dev/null 2>&1
-            systemctl restart mysql > /dev/null 2>&1
-            local mysqlTry=$?
-            systemctl enable mariadb > /dev/null 2>&1
-            systemctl restart mariadb > /dev/null 2>&1
-            local mariadbTry=$?
-            [[ "$mysqlTry" -eq 0 || "$mariadbTry" -eq 0 ]] && echo "Ok" || echo "Failed"
-        fi
-    elif [[ -e "$useService" ]]; then
-        if [[ ! "$doMysqlAndMariadb" -eq 1 ]]; then
-            service $theService enable  > /dev/null 2>&1
-            service $theService restart > /dev/null 2>&1
-            [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
-        else
-            service mysql enable > /dev/null 2>&1
-            service mysql restart > /dev/null 2>&1
-            local mysqlTry=$?
-            service mariadb enable > /dev/null 2>&1
-            service mariadb restart > /dev/null 2>&1
-            local mariadbTry=$?
-            [[ "$mysqlTry" -eq 0 || "$mariadbTry" -eq 0 ]] && echo "Ok" || echo "Failed"
-        fi
-    else
-        echo "Unable to determine service manager"
-    fi
 }
 setupDB() {
     dots "Checking for ovp database"
