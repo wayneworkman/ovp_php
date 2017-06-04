@@ -102,11 +102,11 @@ configurePHP() {
         sed -i "s/max_input_time = .*/max_input_time = ${max_input_time}/" /etc/php5/apache2/php.ini
     fi
     if [[ -e /etc/php.ini ]]; then
-        sed -i "s/post_max_size = .*/post_max_size = ${post_max_size}/" /etc/php5/apache2/php.ini
-        sed -i "s/upload_max_filesize = .*/upload_max_filesize = ${upload_max_filesize}/" /etc/php5/apache2/php.ini
-        sed -i "s/memory_limit = .*/memory_limit = ${memory_limit}/" /etc/php5/apache2/php.ini
-        sed -i "s/max_execution_time = .*/max_execution_time = ${max_execution_time}/" /etc/php5/apache2/php.ini
-        sed -i "s/max_input_time = .*/max_input_time = ${max_input_time}/" /etc/php5/apache2/php.ini
+        sed -i "s/post_max_size = .*/post_max_size = ${post_max_size}/" /etc/php.ini
+        sed -i "s/upload_max_filesize = .*/upload_max_filesize = ${upload_max_filesize}/" /etc/php.ini
+        sed -i "s/memory_limit = .*/memory_limit = ${memory_limit}/" /etc/php.ini
+        sed -i "s/max_execution_time = .*/max_execution_time = ${max_execution_time}/" /etc/php.ini
+        sed -i "s/max_input_time = .*/max_input_time = ${max_input_time}/" /etc/php.ini
     fi
     echo "Done"
 }
