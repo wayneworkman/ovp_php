@@ -58,6 +58,9 @@ placeFiles() {
     if [[ -z $(command -v semanage) ]]; then
         semanage fcontext -a -t httpd_sys_rw_content_t '/data'
         restorecon -v '/data'
+        touch /etc/selinux/targeted/contexts/files/file_contexts.local
+        ausearch -c 'httpd' --raw | audit2allow -M my-httpd
+        semodule -i my-httpd.pp
     fi
     echo "Done"
 }
