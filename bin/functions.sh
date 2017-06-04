@@ -169,7 +169,7 @@ checkOrInstallPackages() {
         yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm > /dev/null 2>&1
         yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm > /dev/null 2>&1
         yum -y install yum-utils > /dev/null 2>&1
-        subscription-manager repos --enable=rhel-7-server-optional-rpms > /dev/null 2>&1
+        yum-config-manager --enable remi-php71 > /dev/null 2>&1
         yum -y install $rhelPackages > /dev/null 2>&1
         if [[ "$silent" -eq 0 ]]; then
             [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
