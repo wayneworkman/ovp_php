@@ -55,6 +55,10 @@ placeFiles() {
     fi
     cp $cwd/processUpload.sh /data/scripts
     chown -R $webpermissions /data
+    if [[ -z $(command -v semanage) ]]; then
+        semanage fcontext -a -t httpd_sys_rw_content_t '/data'
+        restorecon -v '/data'
+    fi
     echo "Done"
 }
 updateServer() {
