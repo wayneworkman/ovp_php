@@ -22,6 +22,7 @@ placeFiles
 configurePHP
 configureApache
 configureMysql
+configureFirewalld
 
 echo ' '
 echo ' '
