@@ -23,6 +23,7 @@ configurePHP
 configureApache
 configureMysql
 configureFirewalld
+disableSelinux
 
 echo ' '
 echo ' '

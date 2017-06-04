@@ -213,3 +213,11 @@ setupDB() {
         echo "Exists"
     fi
 }
+disableSelinux() {
+    if [[ -e $(command -v setenforce) ]]; then
+        dots "Setting SELinux to permissive"
+        setenforce 0 > /dev/null 2>&1
+        sed -i.bak 's/^.*\SELINUX=enforcing\b.*$/SELINUX=permissive/' /etc/selinux/config > /dev/null 2>&1
+        [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
+    fi
+}
