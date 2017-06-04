@@ -22,7 +22,7 @@ if ($SessionIsVerified == "1") {
     echo "</form>\n";
     echo "<br><br>\n";
     echo "Public link:<br>\n";
-    echo "http://www.$domainName/player.php?v=$file.$ext";
+    echo "https://$domainName/player.php?v=$file.$ext";
     echo "<br><br>\n";
     echo "iframe:<br>\n";
     echo "&lt;iframe width=\"560\" height=\"315\" src=\"$domainName/stream.php?v=$v\" frameborder=\"0\" allowfullscreen&gt;&lt;/iframe&gt";
