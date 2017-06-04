@@ -149,7 +149,7 @@ configureMysql() {
     fi
 }
 checkOrInstallPackages() {
-    local rhelPackages="mariadb-server php httpd php-mysqlnd"
+    local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server"
     local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
