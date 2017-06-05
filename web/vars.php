@@ -20,7 +20,7 @@ $videoDir = "/data/videos";
 $deleteDir = "/data/deleted";
 $processScript = "/data/scripts/processUpload.sh";
 
-$contactEmail = "wayne.workman2015@gmail.com";
+$contactEmail = "wayne point workman2015 at gmail point com";
 
 // Messages. 
 $SiteErrorMessage = "ERROR: There was a site problem. Report this to your administrator and try again later.";
