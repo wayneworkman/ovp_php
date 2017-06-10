@@ -35,6 +35,10 @@ if [[ -z $uID ]]; then
 fi
 
 
+#Troubleshooting line
+echo "file=\"$file\" vTitle=\"$vTitle\" uID=\"$uID\"" >> $log
+
+
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
     echo "File doesn't exist" >> $log
