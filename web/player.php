@@ -13,14 +13,21 @@ $sql = "SELECT BlockedIP FROM blockedIPs WHERE BlockedIP = '$REMOTE_ADDR' LIMIT 
 $result = $link->query($sql);
 if ($result->num_rows == 0) {
     //Not blocked, display content.
-    echo "<!DOCTYPE html>\n";
-    echo "<html>\n";
-    echo "<body>\n";
-    echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
-    echo "<br><br>\n";
-    echo "Request an account: $contactEmail";
-    echo "</body>\n";
-    echo "</html>\n";
+
+    // Update count.
+    $sql = "UPDATE Videos SET vCount = vCount+1 WHERE vID = '$v'";
+    if ($link->query($sql)) {
+        //good.
+        echo "<!DOCTYPE html>\n";
+        echo "<html>\n";
+        echo "<body>\n";
+        //echo "$sql<br>\n";
+        echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
+        echo "<br><br>\n";
+        echo "Request an account: $contactEmail";
+        echo "</body>\n";
+        echo "</html>\n";
+    }
 } else {
     // IP is blocked.
     session_unset();

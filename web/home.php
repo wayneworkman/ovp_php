@@ -6,9 +6,9 @@ if ($SessionIsVerified == "1") {
     include 'connect2db.php';
     echo "<div>\n";
     if ($isAdministrator == 1) {
-        $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` ORDER BY `uploadDate` DESC";
+        $sql = "SELECT `vID`,`uploadDate`,`vTitle`,`vCount` from `Videos` ORDER BY `uploadDate` DESC";
     } else {
-        $sql = "SELECT `vID`,`uploadDate`,`vTitle` from `Videos` WHERE `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') ORDER BY `uploadDate` DESC";
+        $sql = "SELECT `vID`,`uploadDate`,`vTitle`,`vCount` from `Videos` WHERE `vID` IN (SELECT `vID` FROM `UserVideoAssoc` WHERE `uID` = '$UserID') ORDER BY `uploadDate` DESC";
     }
     //echo "$sql<br>\n";
     $result = $link->query($sql);
@@ -16,11 +16,13 @@ if ($SessionIsVerified == "1") {
         echo "<table style=\"width:100%\">\n";
         echo "<tr>\n";
         echo "<th>Title</th>\n";
+        echo "<th>Count</th>\n";
         echo "<th>date</th>\n";
         echo "</tr>\n";
         while($row = $result->fetch_assoc()) {
             echo "<tr>\n";
             echo "<td><a href=\"verifiedPlayer.php?v=" . trim($row['vID']) . "\">" . trim($row['vTitle']) . "</a></td>\n";
+            echo "<td>" . trim($row['vCount']) . "</td>\n";
             echo "<td>" . trim($row['uploadDate']) . "</td>\n";
             echo "</tr>\n";
         }

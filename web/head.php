@@ -94,6 +94,7 @@ if ($isAdministrator == 1) {
     echo "    <a href=\"#\" class=\"dropbtn\">Administrator Actions</a>\n";
     echo "    <div class=\"dropdown-content\">\n";
     echo "      <a href=\"AdminActionPage.php\">User and IP Management</a>\n";
+    echo "      <a href=\"sessionsPage.php\">Sessions</a>\n";
     echo "    </div>\n";
     echo "   </li>\n";
         
