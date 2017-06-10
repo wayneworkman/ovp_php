@@ -3,6 +3,26 @@
 // This is an auto-blocking file for anyone that tries to access it.
 // Requesting xmlrpc.php is an attack by malacious persons.
 
+
+//Function to do SQL query.
+function doQuery() {
+    global $sql;
+    global $link;
+    global $SiteErrorMessage;
+    global $NextURL;
+    //echo "$sql<br>";
+    if ($link->query($sql)) {
+        // good, send back to NextURL
+        $NextURL="login.php";
+        header("Location: $NextURL");
+    } else {
+        // Error
+        setMessage($SiteErrorMessage,"AdminActionPage.php");
+    }
+}
+
+
+
 include 'vars.php';
 include 'connect2db.php';
 $REMOTE_ADDR = $link->real_escape_string($_SERVER ['REMOTE_ADDR']);
