@@ -27,6 +27,8 @@ if ($SessionIsVerified == "1") {
 	}
 	$target_dir = "$tempDir/";
 	$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        #Escape any unwanted characters.
+        $target_file = preg_replace("/[^a-zA-Z0-9.]/", "", $target_file);
 	$uploadOk = 1;
 	$fileType = pathinfo($target_file,PATHINFO_EXTENSION);
 	$fileType = trim($fileType);
