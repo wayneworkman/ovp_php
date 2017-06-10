@@ -3,7 +3,7 @@
 
 
 include 'vars.php';
-$v = $link->real_escape_string($_REQUEST['v']);
+$v = $_REQUEST['v'];
 $file = pathinfo($v, PATHINFO_FILENAME);
 $ext = pathinfo($v, PATHINFO_EXTENSION);
 $file = "$videoDir/$file.$ext";
