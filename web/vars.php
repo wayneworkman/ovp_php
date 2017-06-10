@@ -18,6 +18,7 @@ $home = "home.php"; //This is the home file.
 $tempDir = "/data/uploads";
 $videoDir = "/data/videos";
 $deleteDir = "/data/deleted";
+$qrCodes = "/data/qrCodes";
 $processScript = "/data/scripts/processUpload.sh";
 
 $contactEmail = "wayne.workman2015@gmail.com";

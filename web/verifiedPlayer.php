@@ -33,6 +33,8 @@ if ($SessionIsVerified == "1") {
     echo "Markdown:<br>\n";
     echo "[[embed url=$domainName/stream.php?v=$v]]";
     echo "<br><br>";
+    echo "Public link QR code:<br>\n";
+    echo "<a href='image.php?i=$file'><img src=\"image.php?i=$file\" alt=\"$file\" style=\"width:128px;height:128px;\" title=\"$file\"></a>\n";
     echo "</div>\n";
     echo "</body></html>\n";
 }

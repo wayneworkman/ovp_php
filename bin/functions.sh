@@ -50,6 +50,7 @@ placeFiles() {
     mkdir -p /data/uploads
     mkdir -p /data/scripts
     mkdir -p /data/logs
+    mkdir -p /data/qrCodes
     if [[ -e /data/scripts/processUpload.sh ]]; then
         rm -f /data/scripts/processUpload.sh
     fi
@@ -152,9 +153,9 @@ configureMysql() {
     fi
 }
 checkOrInstallPackages() {
-    local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server"
+    local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server qrencode"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
-    local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt"
+    local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
         dots "Installing packages"

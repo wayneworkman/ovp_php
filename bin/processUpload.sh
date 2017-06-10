@@ -2,7 +2,9 @@
 
 
 #Variables.
+domainName="perpetuum.io"
 videoDir="/data/videos"
+qrCodes="/data/qrCodes"
 database="ovp"
 mysqlhost="localhost"
 mysqluser="processvideo"
@@ -11,7 +13,7 @@ log="/data/logs/processVideo.log"
 mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
-
+qrencode=$(command -v qrencode)
 
 file=$1
 if [[ -z $file ]]; then
@@ -112,8 +114,17 @@ mv $file ${videoDir}/${vID}
 #echo "mv $file ${videoDir}/${vID}" >> $log
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
-    echo "Move failed" >> $log
+    echo "Move failed for $file" >> $log
     exit
+else
+    #Generate a QR code for the link.
+    if [[ ! -e ${qrCodes}/${sum}.png ]]; then
+        $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
+        if [[ "$?" != 0 ]]; then
+            echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
+        
+        fi
+    fi
 fi
 
 
