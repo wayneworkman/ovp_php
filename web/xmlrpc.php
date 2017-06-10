@@ -1,26 +1,17 @@
 <?php
 
+// This is an auto-blocking file for anyone that tries to access it.
+// Requesting xmlrpc.php is an attack by malacious persons.
+
 include 'vars.php';
-$v = $link->real_escape_string($_REQUEST['v']);
-$file = pathinfo($v, PATHINFO_FILENAME);
-$ext = pathinfo($v, PATHINFO_EXTENSION);
 include 'connect2db.php';
-
-
-#Check for blocked IPs.
 $REMOTE_ADDR = $link->real_escape_string($_SERVER ['REMOTE_ADDR']);
 $sql = "SELECT BlockedIP FROM blockedIPs WHERE BlockedIP = '$REMOTE_ADDR' LIMIT 1";
 $result = $link->query($sql);
 if ($result->num_rows == 0) {
-    //Not blocked, display content.
-    echo "<!DOCTYPE html>\n";
-    echo "<html>\n";
-    echo "<body>\n";
-    echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
-    echo "<br><br>\n";
-    echo "Request an account: $contactEmail";
-    echo "</body>\n";
-    echo "</html>\n";
+    //If not already blocked, block it.
+    $sql = "INSERT INTO `blockedIPs` (`BlockedIP`) VALUES ('$REMOTE_ADDR')";
+    doQuery();
 } else {
     // IP is blocked.
     session_unset();
@@ -32,4 +23,3 @@ if ($result->num_rows == 0) {
     $link->close();
 }
 ?>
-

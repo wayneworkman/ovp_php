@@ -25,7 +25,7 @@ $contactEmail = "wayne point workman2015 at gmail point com";
 // Messages. 
 $SiteErrorMessage = "ERROR: There was a site problem. Report this to your administrator and try again later.";
 $BadLoginError = "ERROR: Username and/or password is no good.";
-$IPBlockedMessage = "ERROR: You are blocked. Report this to your administrator and try again later.";
+$IPBlockedMessage = "ERROR: You are blocked.";
 $incomplete = "ERROR: Not all fields completed.";
 $invalidData = "ERROR: Invalid data in one or more fields.";
 
