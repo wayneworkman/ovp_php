@@ -7,6 +7,7 @@ videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 database="ovp"
+ffmpegDir="/data/ffmpeg"
 mysqlhost="localhost"
 mysqluser="processvideo"
 mysqlpass="processvideopassword"
@@ -15,12 +16,13 @@ mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
 qrencode=$(command -v qrencode)
-
+ffmpeg=$(find $ffmpegDir -type f -name ffmpeg)
 
 #Make all the directories if they aren't there.
 mkdir -p $videoDir
 mkdir -p $tmpDir
 mkdir -p $qrCodes
+mkdir -p $ffmpegDir
 
 
 
@@ -69,6 +71,11 @@ fi
 
 if [[ -z $cut ]]; then
     echo "cut not available" >> $log
+    exit
+fi
+
+if [[ -z $ffmpeg ]]; then
+    echo "ffmpeg was not found" >> $log
     exit
 fi
 
