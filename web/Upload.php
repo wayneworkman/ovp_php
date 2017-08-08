@@ -53,10 +53,10 @@ if ($SessionIsVerified == "1") {
 
 
 	// Allow certain file formats
-	if($fileType != "mp4" && $fileType != "ovg" && $fileType != "webm") {
-		setMessage("Sorry, only mp4,webm, and ovg files are allowed. You uploaded: $fileType","UploadPage.php");
-		die;
-	}
+	//if($fileType != "mp4" && $fileType != "ovg" && $fileType != "webm") {
+	//	setMessage("Sorry, only mp4,webm, and ovg files are allowed. You uploaded: $fileType","UploadPage.php");
+	//	die;
+	//}
 
 
 	if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {

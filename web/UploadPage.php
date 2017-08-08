@@ -9,7 +9,8 @@ if ($SessionIsVerified == "1") {
     echo "<br><br>";
     echo "<form action=\"Upload.php\" method=\"post\" enctype=\"multipart/form-data\">";
     echo "Video title:<br><input type=\"text\" name=\"vTitle\" id=\"vTitle\"><br><br>";
-    echo "Select file to upload (mp4, webm, and ovg only):<br>";
+//    echo "Select file to upload (mp4, webm, and ovg only):<br>";
+    echo "Select file to upload:<br>";
     echo "<input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br><br>";
     echo "<input type=\"checkbox\" name=\"AcceptAUP\" value=\"Accepted\">I agree to and am abiding by the <a href=\"showAUP.php\">Acceptable Use Policy</a>.<br><br>\n";
     echo "<input type=\"submit\" value=\"Upload\" name=\"submit\">";
