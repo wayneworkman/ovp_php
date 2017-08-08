@@ -17,6 +17,8 @@ sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
 qrencode=$(command -v qrencode)
 ffmpeg=$(find $ffmpegDir -type f -name ffmpeg)
+mediainfo=$(command -v mediainfo)
+
 
 #Make all the directories if they aren't there.
 mkdir -p $videoDir
@@ -79,6 +81,11 @@ if [[ -z $ffmpeg ]]; then
     exit
 fi
 
+if [[ -z $mediainfo ]]; then
+    echo "mediainfo was not found" >> $log
+    exit
+fi
+
 
 #Set mysql options.
 options="-sN"
@@ -92,6 +99,27 @@ if [[ $mysqlpass != "" ]]; then
         options="$options -p$mysqlpass"
 fi
 options="$options -D $database -e"
+
+
+
+#Get file information
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #hash the file.
