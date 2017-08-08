@@ -193,10 +193,17 @@ checkOrInstallPackages() {
 }
 getFfmpeg() {
     dots "Getting ffmpeg"
+    #Get it. Could probably be done with curl - but curl doesn't come standard either. It's like choosing what t-shirt to put on. Meh.
     wget --quiet -O /tmp/ffmpeg-release-64bit-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     dots "Extracting ffmpeg"
-    tar -xf /tmp/ffmpeg-release-64bit-static.tar.xz -C /data
+    #Make directories if not present.
+    mkdir -p /data/ffmpeg
+    mkdir -p /data/ffmpeg-old
+    #Move old versions if present.
+    mv /data/ffmpeg/* /data/ffmpeg-old > /dev/null 2>&1
+    #Extract.
+    tar -xf /tmp/ffmpeg-release-64bit-static.tar.xz -C /data/ffmpeg
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     rm -f /tmp/ffmpeg-release-64bit-static.tar.xz
     
