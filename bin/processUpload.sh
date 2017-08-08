@@ -20,7 +20,7 @@ qrencode=$(command -v qrencode)
 #Make all the directories if they aren't there.
 mkdir -p $videoDir
 mkdir -p $tmpDir
-mkdir $qrCodes
+mkdir -p $qrCodes
 
 
 
