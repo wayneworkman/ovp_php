@@ -153,9 +153,9 @@ configureMysql() {
     fi
 }
 checkOrInstallPackages() {
-    local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server qrencode"
+    local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server qrencode mediainfo wget"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
-    local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode"
+    local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo wget"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
         dots "Installing packages"
@@ -190,6 +190,10 @@ checkOrInstallPackages() {
         fi
         return 1
     fi
+}
+getFfmpeg() {
+    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
+    tar -xf ffmpeg-release-64bit-static.tar.xz -C /data
 }
 checkForRoot() {
     dots "Checking if I am root"
