@@ -118,6 +118,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
         else
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -threads $threads -i \"$file\" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k \"${tmpDir}/${filename}.mp4\"" >> $log
+        fi
 
     else
         # Best shot here.
@@ -128,6 +129,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
         else
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
+        fi
     fi
 
 fi
