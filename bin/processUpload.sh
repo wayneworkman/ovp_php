@@ -4,6 +4,7 @@
 #Variables.
 domainName="perpetuum.io"
 videoDir="/data/videos"
+tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 database="ovp"
 mysqlhost="localhost"
@@ -14,6 +15,14 @@ mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
 qrencode=$(command -v qrencode)
+
+
+#Make all the directories if they aren't there.
+mkdir -p $videoDir
+mkdir -p $tmpDir
+mkdir $qrCodes
+
+
 
 file=$1
 if [[ -z $file ]]; then
