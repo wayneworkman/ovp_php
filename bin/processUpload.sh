@@ -7,7 +7,6 @@ videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 database="ovp"
-ffmpegDir="/data/ffmpeg"
 mysqlhost="localhost"
 mysqluser="processvideo"
 mysqlpass="processvideopassword"
@@ -16,15 +15,14 @@ mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
 qrencode=$(command -v qrencode)
-ffmpeg=$(find $ffmpegDir -type f -name ffmpeg)
-mediainfo=$(command -v mediainfo)
+rm=$(command -v rm)
+threads="16" #Number of threads to use in video conversion. This is per-process.
 
 
 #Make all the directories if they aren't there.
 mkdir -p $videoDir
 mkdir -p $tmpDir
 mkdir -p $qrCodes
-mkdir -p $ffmpegDir
 
 
 
@@ -76,16 +74,6 @@ if [[ -z $cut ]]; then
     exit
 fi
 
-if [[ -z $ffmpeg ]]; then
-    echo "ffmpeg was not found" >> $log
-    exit
-fi
-
-if [[ -z $mediainfo ]]; then
-    echo "mediainfo was not found" >> $log
-    exit
-fi
-
 
 #Set mysql options.
 options="-sN"
@@ -101,31 +89,53 @@ fi
 options="$options -D $database -e"
 
 
-
-#Get file information
-
-
-
+#Get file name and extension.
+filename=$(basename "$file")
+extension="${filename##*.}"
 
 
+#Check if it's an mp4 extension or not. Could use mediainfo here.
+if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
+    #It's not mp4, convert it. Try to preserve encoding instead of re-encoding if possible.
 
+    if [[ "$extension" == "mkv" || "$extension" == "MKV" ]]; then
+        # mkv conversion command here.
+        $ffmpeg -threads $threads -i "$file" -vcodec copy -acodec copy "${tmpDir}\${filename}.mp4"
+        if [[ $? -eq 0 ]]; then
+            $rm -f $file
+            file="${tmpDir}\${filename}.mp4"
+        else
+            echo "Error converting file. Command was:" >> $log
+            echo "$ffmpeg -threads $threads -i \"$file\" -vcodec copy -acodec copy \"${tmpDir}\${filename}.mp4\"" >> $log
+        fi
 
+    elif [[ "$extension" == "avi" || "$extension" == "AVI" ]]; then
+        # avi conversion command here.
+        $ffmpeg -threads $threads -i "$file" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k "${tmpDir}\${filename}.mp4"
+        if [[ $? -eq 0 ]]; then
+            $rm -f $file
+            file="${tmpDir}\${filename}.mp4"
+        else
+            echo "Error converting file. Command was:" >> $log
+            echo "$ffmpeg -threads $threads -i \"$file\" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k \"${tmpDir}\${filename}.mp4\"" >> $log
 
+    else
+        # Best shot here.
+        $ffmpeg -threads $threads -i "$file" "${tmpDir}\${filename}.mp4"
+        if [[ $? -eq 0 ]]; then
+            $rm -f $file
+            file="${tmpDir}\${filename}.mp4"
+        else
+            echo "Error converting file. Command was:" >> $log
+            echo "$ffmpeg -threads $threads -i \"$file\" \"${tmpDir}\${filename}.mp4\"" >> $log
+    fi
 
-
-
-
-
-
-
-
+fi
 
 
 
 #hash the file.
 sum=$( $sha256sum $file | $cut -d' ' -f1)
-filename=$(basename "$file")
-extension="${filename##*.}"
 
 if [[ "${#sum}" != "64" ]]; then
     #Sum is not 64 characters? Exit.
