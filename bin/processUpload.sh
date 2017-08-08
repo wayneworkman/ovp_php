@@ -178,12 +178,12 @@ if [[ "$?" != 0 ]]; then
     exit
 else
     #Generate a QR code for the link.
-    if [[ ! -e ${qrCodes}/${sum}.png ]]; then
-        $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
-        if [[ "$?" != 0 ]]; then
-            echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
-        
-        fi
+    if [[ -e ${qrCodes}/${sum}.png ]]; then
+        rm -f ${qrCodes}/${sum}.png
+    fi
+    $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
+    if [[ "$?" != 0 ]]; then
+        echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
     fi
 fi
 
