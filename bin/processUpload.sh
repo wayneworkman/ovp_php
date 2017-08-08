@@ -16,6 +16,7 @@ sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
 qrencode=$(command -v qrencode)
 rm=$(command -v rm)
+ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
 threads="16" #Number of threads to use in video conversion. This is per-process.
 
 
