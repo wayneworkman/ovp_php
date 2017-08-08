@@ -104,7 +104,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
         $ffmpeg -threads $threads -i "$file" -vcodec copy -acodec copy "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
             $rm -f $file
-            file="${tmpDir}/${filename}.mp4"
+            extension="mp4"
+            file="${tmpDir}/${filename}.${extension}"
         else
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -threads $threads -i \"$file\" -vcodec copy -acodec copy \"${tmpDir}/${filename}.mp4\"" >> $log
@@ -115,7 +116,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
         $ffmpeg -threads $threads -i "$file" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
             $rm -f $file
-            file="${tmpDir}/${filename}.mp4"
+            extension="mp4"
+            file="${tmpDir}/${filename}.${extension}"
         else
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -threads $threads -i \"$file\" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k \"${tmpDir}/${filename}.mp4\"" >> $log
@@ -126,7 +128,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
         $ffmpeg -threads $threads -i "$file" "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
             $rm -f $file
-            file="${tmpDir}/${filename}.mp4"
+            extension="mp4"
+            file="${tmpDir}/${filename}.${extension}"
         else
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
