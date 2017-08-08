@@ -193,7 +193,7 @@ checkOrInstallPackages() {
 }
 getFfmpeg() {
     dots "Getting ffmpeg"
-    wget -O /tmp/ffmpeg-release-64bit-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
+    wget --quiet -O /tmp/ffmpeg-release-64bit-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     dots "Extracting ffmpeg"
     tar -xf /tmp/ffmpeg-release-64bit-static.tar.xz -C /data
