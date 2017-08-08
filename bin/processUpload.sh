@@ -101,7 +101,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
 
     if [[ "$extension" == "mkv" || "$extension" == "MKV" ]]; then
         # mkv conversion command here.
-        $ffmpeg -threads $threads -i "$file" -vcodec copy -acodec copy "${tmpDir}/${filename}.mp4"
+        $ffmpeg -loglevel quiet -threads $threads -i "$file" -vcodec copy -acodec copy "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
             $rm -f $file
             extension="mp4"
@@ -113,7 +113,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
 
     elif [[ "$extension" == "avi" || "$extension" == "AVI" ]]; then
         # avi conversion command here.
-        $ffmpeg -threads $threads -i "$file" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k "${tmpDir}/${filename}.mp4"
+        $ffmpeg -loglevel quiet -threads $threads -i "$file" -c:v libx264 -preset slow -crf 20 -c:a libvo_aacenc -b:a 128k "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
             $rm -f $file
             extension="mp4"
@@ -125,7 +125,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
 
     else
         # Best shot here.
-        $ffmpeg -threads $threads -i "$file" "${tmpDir}/${filename}.mp4"
+        $ffmpeg -loglevel quiet -threads $threads -i "$file" "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
             $rm -f $file
             extension="mp4"
