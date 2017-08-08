@@ -192,8 +192,14 @@ checkOrInstallPackages() {
     fi
 }
 getFfmpeg() {
-    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
-    tar -xf ffmpeg-release-64bit-static.tar.xz -C /data
+    dots "Getting ffmpeg"
+    wget -O /tmp/ffmpeg-release-64bit-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
+    [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
+    dots "Extracting ffmpeg"
+    tar -xf /tmp/ffmpeg-release-64bit-static.tar.xz -C /data
+    [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
+    rm -f /tmp/ffmpeg-release-64bit-static.tar.xz
+    
 }
 checkForRoot() {
     dots "Checking if I am root"
