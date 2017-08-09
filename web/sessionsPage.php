@@ -19,7 +19,7 @@ if ($SessionIsVerified == "1") {
 	if ($isAdministrator ==1) {
 		echo "<form action=\"clearSessions.php\" method=\"post\">\n";
 		echo "Clear session data older than\n";
-		echo " <input type=\"text\" name=\"days\" value=\"1\" style=\"width:20px;\"> days.<br>\n";
+		echo " <input type=\"text\" name=\"days\" value=\"1\" style=\"width:100px;\"> days.<br>\n";
 		echo "<input type=\"checkbox\" name=\"ConfirmDelete\" value=\"Confirmed\">Confirm Delete<br>\n";
 		echo "<input type=\"submit\" value=\"Clear Session Data\">\n";
 		echo "<br><br>\n";

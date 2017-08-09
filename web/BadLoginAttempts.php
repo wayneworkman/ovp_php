@@ -17,7 +17,7 @@ if ($SessionIsVerified == "1") {
 
 			echo "<form action=\"clearBadLogins.php\" method=\"post\">\n";
 			echo "Clear bad login attempts older than\n";
-			echo " <input type=\"text\" name=\"years\" value=\"1\" style=\"width:20px;\"> years.<br>\n";
+			echo " <input type=\"text\" name=\"years\" value=\"1\" style=\"width:100px;\"> years.<br>\n";
 			echo "<input type=\"checkbox\" name=\"ConfirmDelete\" value=\"Confirmed\">Confirm Delete<br>\n";
 			echo "<input type=\"submit\" value=\"Clear Bad Logins\">\n";
 			echo "<br><br>\n";
