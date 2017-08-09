@@ -1,6 +1,9 @@
 <?php
 include 'vars.php';
 echo "<html>\n";
+echo "<head>\n";
+include 'style.php';
+echo "</head>\n";
 echo "<title>$SiteName</title>\n";
 echo "<body>\n";
 echo "<form name=\"login\" action=\"authenticate.php\" method=\"post\">\n";
