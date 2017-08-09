@@ -8,7 +8,7 @@ if ($SessionIsVerified == "1") {
     echo "<div>\n";
     echo "<br><br>\n";
     echo "<form action=\"Upload.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
-    echo "Video title:<br><input type=\"text\" name=\"vTitle\" id=\"vTitle\"><br><br>\n";
+    echo "Video title:<br><input type=\"text\" name=\"vTitle\" id=\"vTitle\" style=\"width:600px;\"><br><br>\n";
 //    echo "Select file to upload (mp4, webm, and ovg only):<br>\n";
     echo "Select file to upload:<br>\n";
     echo "<input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br><br>\n";

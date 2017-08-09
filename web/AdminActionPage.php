@@ -13,7 +13,7 @@ if ($SessionIsVerified == "1") {
         echo "<p class=\"tab\">";
 
 
-        echo "Text for selected action:<br><input type=\"text\" name=\"adminActionText\"><br>";
+        echo "Text for selected action:<br><input type=\"text\" name=\"adminActionText\" style=\"width:600px;\"><br>";
         echo "<br>";
 
 
