@@ -9,8 +9,8 @@ if ($SessionIsVerified == "1") {
     echo "<form action=\"ChangePassword.php\" method=\"post\">";
     echo "Change Password<br>";
     echo "<p class=\"tab\">";
-    echo "Old Password:<br><input type=\"password\" name=\"OldPassword\" autocomplete=\"off\"><br>";
-    echo "New Password:<br><input type=\"password\" name=\"NewPassword\" autocomplete=\"off\"><br>";
+    echo "Old Password:<br><input type=\"password\" name=\"OldPassword\" autocomplete=\"off\" style=\"width:600px;\"><br>";
+    echo "New Password:<br><input type=\"password\" name=\"NewPassword\" autocomplete=\"off\" style=\"width:600px;\"><br>";
     echo "<br>";
     echo "<input type=\"submit\">";
     echo "</form>";
