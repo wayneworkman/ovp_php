@@ -34,7 +34,7 @@ local job="$1"
 if [[ -z $job ]]; then
     #No job file passed? Exit.
     echo "No job passed" >> $log
-    exit
+    return 1
 fi
 source $job
 
@@ -42,21 +42,21 @@ source $job
 if [[ -z $file ]]; then
     #No file passed? Exit.
     echo "No file passed" >> $log
-    exit
+    return 1
 fi
 
 
 if [[ -z $vTitle ]]; then
     #No vTitle passed? Exit.
-    "No vTitle passed" >> $log
-    exit
+    echo "No vTitle passed" >> $log
+    return 1
 fi
 
 
 if [[ -z $uID ]]; then
     #No user passed? Exit.
-    "No uID passed" >> $log
-    exit
+    echo "No uID passed" >> $log
+    return 1
 fi
 
 
@@ -67,23 +67,23 @@ echo "file=\"$file\" vTitle=\"$vTitle\" uID=\"$uID\"" >> $log
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
     echo "File doesn't exist" >> $log
-    exit
+    return 1
 fi
 
 if [[ -z $mysql ]]; then
     #mysql not present.
     echo "mysql not available" >> $log
-    exit
+    return 1
 fi
 
 if [[ -z $sha256sum ]]; then
     echo "sha256sum not available" >> $log
-    exit
+    return 1
 fi
 
 if [[ -z $cut ]]; then
     echo "cut not available" >> $log
-    exit
+    return 1
 fi
 
 
@@ -121,7 +121,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" -vcodec copy -acodec copy \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
-            exit
+            return 1
         fi
 
     elif [[ "$extension" == "avi" || "$extension" == "AVI" ]]; then
@@ -135,7 +135,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
-            exit
+            return 1
         fi
 
     else
@@ -149,7 +149,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             echo "Error converting file. Command was:" >> $log
             echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
-            exit
+            return 1
         fi
     fi
 
@@ -163,7 +163,7 @@ sum=$( $sha256sum $file | $cut -d' ' -f1)
 if [[ "${#sum}" != "64" ]]; then
     #Sum is not 64 characters? Exit.
     echo "sum is not 64 characters, was ${#sum}" >> $log
-    exit
+    return 1
 else
     vID="${sum}.${extension}"
 fi
@@ -175,14 +175,14 @@ result=$?
 if [[ "$result" != "0" ]]; then
     #Insert failed? Exit.
     echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")" >> $log
-    exit
+    return 1
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")"
 result=$?
 if [[ "$result" != "0" ]]; then
     echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")" >> $log
     #Insert failed? Exit.
-    exit
+    return 1
 fi
 
 
@@ -192,7 +192,7 @@ mv $file ${videoDir}/${vID}
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
     echo "Move failed for $file" >> $log
-    exit
+    return 1
 else
     #Generate a QR code for the link.
     if [[ -e ${qrCodes}/${sum}.png ]]; then
@@ -201,7 +201,7 @@ else
     $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
     if [[ "$?" != 0 ]]; then
         echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
-        exit
+        return 1
     fi
 fi
 
