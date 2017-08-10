@@ -5,6 +5,6 @@ After=multiuser.target
 
 [Service]
 Type=forking
-ExecStart=/data/scripts/processupload.sh
+ExecStart=/data/scripts/processupload.sh &
 TimeoutSec=0
 RemainAfterExit=yes

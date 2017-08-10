@@ -36,6 +36,14 @@ if [[ -z $job ]]; then
     echo "No job passed" >> $log
     return 1
 fi
+
+if [[ ! -e $job ]]; then
+    #Job file does not exist? Exit.
+    echo "$job does not exist"
+    return 1
+fi
+
+#After verifying that $job is not empty, and the file exists, source it.
 source $job
 
 
