@@ -26,9 +26,12 @@ if ($SessionIsVerified == "1") {
 		die;
 	}
 	$target_dir = "$tempDir/";
-	$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        
+	$filename = basename($_FILES["fileToUpload"]["name"]);
         #Escape any unwanted characters.
-        $target_file = preg_replace("/[^a-zA-Z0-9.]/", "", $target_file);
+        $filename = preg_replace("/[^a-zA-Z0-9.]/", "", $filename);
+        $target_file = "$target_dir/$filename";
+
 	$uploadOk = 1;
 	$fileType = pathinfo($target_file,PATHINFO_EXTENSION);
 	$fileType = trim($fileType);
@@ -61,9 +64,14 @@ if ($SessionIsVerified == "1") {
 
 	if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 		// Process the file, background it.
-		$command = "$processScript '$target_file' '$vTitle' '$UserID' &";
-		shell_exec($command);
-		setMessage("Upload successful. Your video should be available in a moment. Look for it in Home.","UploadPage.php");
+                $jobFile = fopen("$jobs/$filename.job", "w") or setMessage("Unable to write job file.");
+                $txt = "file=\"$target_file\"\nvTitle=\"$vTitle\"\nuID=\"$UserID\"\n";
+                fwrite($jobFile, $txt);
+                fclose($jobFile);
+		
+                //$command = "$processScript '$target_file' '$vTitle' '$UserID' &";
+		//shell_exec($command);
+		setMessage("Upload successful. Your video should be available after any necessary conversion. Look for it in Home.","UploadPage.php");
 
 
 	} else {

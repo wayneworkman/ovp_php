@@ -19,6 +19,7 @@ $tempDir = "/data/uploads";
 $videoDir = "/data/videos";
 $deleteDir = "/data/deleted";
 $qrCodes = "/data/qrCodes";
+$jobs = "/data/jobs";
 $processScript = "/data/scripts/processUpload.sh";
 
 $contactEmail = "wayne.workman2015@gmail.com";
