@@ -21,6 +21,8 @@ if ($SessionIsVerified == "1") {
 			} else {
 				// Error
 				setMessage($SiteErrorMessage,"AdminActionPage.php");
+				//Troubleshooting:
+				//setMessage("$sql","AdminActionPage.php");
 			}
 		}
 
@@ -71,8 +73,6 @@ if ($SessionIsVerified == "1") {
 
 			case $DeleteSelectedUser:
 				if (isset($uID)) {
-					$sql = "DELETE FROM `UserGroupAssociation` WHERE `uID` = '$uID'";
-					doQuery();
 					$sql = "DELETE FROM `Sessions` WHERE `SessionUserID` = '$uID'";
 					doQuery();
 					$sql = "DELETE FROM `Users` WHERE `UserID` = '$uID'";
