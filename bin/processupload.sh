@@ -226,7 +226,8 @@ unset job
 
 
 while true; do
-    for job in $jobs/*.job; do
+    for job in $(find /data/jobs -type f)
+    do
         processupload "$job"
     done
     sleep 5
