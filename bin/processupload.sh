@@ -212,6 +212,7 @@ rm -f $job
 unset file
 unset vTitle
 unset uID
+unset job
 
 }
 
