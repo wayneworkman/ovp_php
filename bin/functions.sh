@@ -51,10 +51,17 @@ placeFiles() {
     mkdir -p /data/scripts
     mkdir -p /data/logs
     mkdir -p /data/qrCodes
-    if [[ -e /data/scripts/processUpload.sh ]]; then
-        rm -f /data/scripts/processUpload.sh
+    mkdir -p /data/jobs
+    if [[ -e /data/scripts/processupload.sh ]]; then
+        rm -f /data/scripts/processupload.sh
     fi
-    cp $cwd/processUpload.sh /data/scripts
+    cp $cwd/processupload.sh /data/scripts
+    if [[ -e /usr/lib/systemd/system/processupload.service ]]; then
+        rm -f /usr/lib/systemd/system/processupload.service
+    fi
+    cp $cwd/processupload.service /usr/lib/systemd/system
+    systemctl enable processupload.service
+    systemctl start processupload.service
     chown -R $webpermissions /data
     if [[ -z $(command -v semanage) ]]; then
         semanage fcontext -a -t httpd_sys_rw_content_t '/data'

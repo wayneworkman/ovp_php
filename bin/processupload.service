@@ -1,0 +1,10 @@
+[Unit]
+Description="Process upload jobs for OVP"
+ConditionFileIsExecutable=/data/scripts/processupload.sh
+After=multiuser.target
+
+[Service]
+Type=forking
+ExecStart=/data/scripts/processupload.sh
+TimeoutSec=0
+RemainAfterExit=yes

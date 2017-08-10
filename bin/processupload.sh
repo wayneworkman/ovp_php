@@ -6,6 +6,7 @@ domainName="perpetuum.io"
 videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
+jobs="/data/jobs"
 database="ovp"
 mysqlhost="localhost"
 mysqluser="processvideo"
@@ -24,24 +25,34 @@ threads="16" #Number of threads to use in video conversion. This is per-process.
 mkdir -p $videoDir
 mkdir -p $tmpDir
 mkdir -p $qrCodes
+mkdir -p $jobs
+
+processupload() {
 
 
+local job="$1"
+if [[ -z $job ]]; then
+    #No job file passed? Exit.
+    echo "No job passed" >> $log
+    exit
+fi
+source $job
 
-file=$1
+
 if [[ -z $file ]]; then
     #No file passed? Exit.
     echo "No file passed" >> $log
     exit
 fi
 
-vTitle=$2
+
 if [[ -z $vTitle ]]; then
     #No vTitle passed? Exit.
     "No vTitle passed" >> $log
     exit
 fi
 
-uID=$3
+
 if [[ -z $uID ]]; then
     #No user passed? Exit.
     "No uID passed" >> $log
@@ -190,9 +201,26 @@ else
     $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
     if [[ "$?" != 0 ]]; then
         echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
+        exit
     fi
 fi
 
+#If we've got this far, we're OK to delete the job file.
+rm -f $job
 
+#cleanup.
+unset file
+unset vTitle
+unset uID
+
+}
+
+
+while true; do
+    for job in $jobs/*.job; do
+        processupload "$job"
+    done
+    sleep 5
+done
 
 
