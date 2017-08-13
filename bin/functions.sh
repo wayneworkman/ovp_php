@@ -56,12 +56,6 @@ placeFiles() {
         rm -f /data/scripts/processupload.sh
     fi
     cp $cwd/processupload.sh /data/scripts
-    if [[ -e /usr/lib/systemd/system/processupload.service ]]; then
-        rm -f /usr/lib/systemd/system/processupload.service
-    fi
-    cp $cwd/processupload.service /usr/lib/systemd/system
-    systemctl enable processupload.service
-    systemctl restart processupload.service
     chown -R $webpermissions /data
     if [[ -z $(command -v semanage) ]]; then
         semanage fcontext -a -t httpd_sys_rw_content_t '/data'
@@ -71,6 +65,26 @@ placeFiles() {
         semodule -i my-httpd.pp
     fi
     echo "Done"
+}
+checkFfmpeg() {
+    dots "Searching for ffmpeg binary"
+    ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
+    if [[ ! -e $ffmpeg ]]; then
+        echo "Not found, exiting."
+        exit
+    else
+        echo "Found."
+    fi
+}
+setupConversion() {
+    dots "Setting up processupload.service"
+    if [[ -e /usr/lib/systemd/system/processupload.service ]]; then
+        rm -f /usr/lib/systemd/system/processupload.service
+    fi
+    cp $cwd/processupload.service /usr/lib/systemd/system
+    systemctl enable processupload.service
+    systemctl restart processupload.service
+    [[ $? -eq 0 ]] && echo "Succcess" || echo "Failed"
 }
 configureFirewalld() {
     dots "Configure firewalld if present"

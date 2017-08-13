@@ -16,20 +16,5 @@ banner
 checkForRoot
 checkOS
 updateServer
-checkOrInstallPackages "0"
-setupDB
-placeFiles
-getFfmpeg
 checkFfmpeg
-configurePHP
-configureApache
-configureMysql
-configureFirewalld
-disableSelinux
-
-echo ' '
-echo ' '
-echo 'Default user:pass is:'
-echo 'admin'
-echo 'changeme'
-echo ' '
+setupConversion
