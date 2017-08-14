@@ -23,7 +23,5 @@ configureFirewalldDb
 
 echo ' '
 echo ' '
-echo 'Default user:pass is:'
-echo 'admin'
-echo 'changeme'
+echo 'Database should be running now.'
 echo ' '
