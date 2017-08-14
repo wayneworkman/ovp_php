@@ -78,6 +78,10 @@ checkFfmpeg() {
 }
 setupConversion() {
     dots "Setting up processupload.service"
+    if [[ -e /data/scripts/mysqlCredentials.sh ]]; then
+        rm -f /data/scripts/mysqlCredentials.sh
+    fi
+    cp $cwd/mysqlCredentials.sh /data/scripts/mysqlCredentials.sh 
     if [[ -e /usr/lib/systemd/system/processupload.service ]]; then
         rm -f /usr/lib/systemd/system/processupload.service
     fi

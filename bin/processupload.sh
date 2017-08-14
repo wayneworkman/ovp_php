@@ -11,11 +11,8 @@ videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 jobs="/data/jobs"
-database="ovp"
-mysqlhost="localhost"
-mysqluser="processvideo"
-mysqlpass="processvideopassword"
 log="/data/logs/processVideo.log"
+dbCredsFile="/data/scripts/mysqlCredentials.sh"
 mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
@@ -28,7 +25,7 @@ ip=$(command -v ip)
 cat=$(command -v cat)
 rm=$(command -v rm)
 ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
-threads="16" #Number of threads to use in video conversion. This is per-process.
+threads="16" #Number of threads to use in video conversion. Do not use more than 16.
 id=$(curl --silent http://169.254.169.254/latest/meta-data/instance-id)
 [[ -z $id ]] && id=$($ip -4 addr show $interface | $awk -F'[ /]+' '/global/ {print $3}')
 
@@ -80,12 +77,12 @@ fi
 
 
 #Troubleshooting line
-echo "file=\"$file\" vTitle=\"$vTitle\" uID=\"$uID\"" >> $log
+#echo "file=\"$file\" vTitle=\"$vTitle\" uID=\"$uID\"" >> $log
 
 
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
-    echo "File doesn't exist" >> $log
+    echo "\"$file\" doesn't exist" >> $log
     return 1
 fi
 
@@ -104,6 +101,16 @@ if [[ -z $cut ]]; then
     echo "cut not available" >> $log
     return 1
 fi
+
+if [[ ! -e $dbCredsFile ]]; then
+    echo "DB Credentials file \"$dbCredsFile\" doesn't exist" >> $log
+    return 1
+fi
+source $dbCredsFile
+
+
+
+
 
 
 #Set mysql options.
@@ -142,21 +149,6 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
             return 1
         fi
-
-    elif [[ "$extension" == "avi" || "$extension" == "AVI" ]]; then
-        # avi conversion command here.
-        $ffmpeg -loglevel quiet -threads $threads -i "$file" "${tmpDir}/${filename}.mp4"
-        if [[ $? -eq 0 ]]; then
-            $rm -f $file
-            extension="mp4"
-            file="${tmpDir}/${filename}.${extension}"
-        else
-            echo "Error converting file. Command was:" >> $log
-            echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
-            rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
-            return 1
-        fi
-
     else
         # Best shot here.
         $ffmpeg -loglevel quiet -threads $threads -i "$file" "${tmpDir}/${filename}.mp4"
