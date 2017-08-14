@@ -19,3 +19,10 @@ updateServer
 installCurl
 checkFfmpeg
 setupConversion
+
+
+
+echo ' '
+echo ' '
+echo 'processupload.service should be running, will immediately begin processing jobs.'
+echo ' '
