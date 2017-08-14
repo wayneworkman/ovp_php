@@ -17,9 +17,9 @@ checkForRoot
 checkOS
 updateServer
 installDb "0"
+configureMysql
 setupDB
 placeFiles
-configureMysql
 configureFirewalldDb
 disableSelinux
 
