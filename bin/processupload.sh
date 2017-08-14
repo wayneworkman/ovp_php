@@ -115,14 +115,14 @@ source $dbCredsFile
 
 #Set mysql options.
 options="-sN"
-if [[ $mysqlhost != "" ]]; then
-        options="$options -h$mysqlhost"
+if [[ $mysqlHost != "" ]]; then
+        options="$options -h$mysqlHost"
 fi
-if [[ $mysqluser != "" ]]; then
-        options="$options -u$mysqluser"
+if [[ $mysqlUser != "" ]]; then
+        options="$options -u$mysqlUser"
 fi
-if [[ $mysqlpass != "" ]]; then
-        options="$options -p$mysqlpass"
+if [[ $mysqlPass != "" ]]; then
+        options="$options -p$mysqlPass"
 fi
 options="$options -D $database -e"
 
