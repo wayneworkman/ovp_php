@@ -19,9 +19,7 @@ updateServer
 installDb "0"
 configureMysql
 setupDB
-placeFiles
 configureFirewalldDb
-disableSelinux
 
 echo ' '
 echo ' '
