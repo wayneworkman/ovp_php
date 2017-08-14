@@ -70,10 +70,10 @@ checkFfmpeg() {
     dots "Searching for ffmpeg binary"
     ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
     if [[ ! -e $ffmpeg ]]; then
-        echo "Not found, exiting."
+        echo "Not found, exiting"
         exit
     else
-        echo "Found."
+        echo "Found"
     fi
 }
 setupConversion() {
