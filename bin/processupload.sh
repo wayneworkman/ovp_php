@@ -1,6 +1,10 @@
 #!/bin/bash
 
 
+
+#If this is a stand alone box, you have to have an acccurate interface name.
+interface="ens3"
+
 #Variables.
 domainName="perpetuum.io"
 videoDir="/data/videos"
@@ -22,7 +26,6 @@ find=$(command -v find)
 tail=$(command -v tail)
 ip=$(command -v ip)
 cat=$(command -v cat)
-interface="eth0"
 rm=$(command -v rm)
 ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
 threads="16" #Number of threads to use in video conversion. This is per-process.
