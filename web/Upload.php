@@ -25,7 +25,7 @@ if ($SessionIsVerified == "1") {
 		setMessage("Sorry, you must accept the Acceptable Use Policy.","UploadPage.php");
 		die;
 	}
-	$target_dir = "$tempDir/";
+	$target_dir = "$tempDir";
         
 	$filename = basename($_FILES["fileToUpload"]["name"]);
         #Escape any unwanted characters.
