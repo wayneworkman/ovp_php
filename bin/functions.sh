@@ -82,6 +82,10 @@ setupConversion() {
         rm -f /usr/lib/systemd/system/processupload.service
     fi
     cp $cwd/processupload.service /usr/lib/systemd/system
+    if [[ -e /data/scripts/processupload.sh ]]; then
+        rm -f /data/scripts/processupload.sh
+    fi
+    cp $cwd/processupload.sh /data/scripts
     systemctl enable processupload.service
     systemctl restart processupload.service
     [[ $? -eq 0 ]] && echo "Succcess" || echo "Failed"
