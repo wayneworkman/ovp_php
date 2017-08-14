@@ -12,6 +12,7 @@ tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 jobs="/data/jobs"
 log="/data/logs/processVideo.log"
+timeout=$(command -v timeout)
 dbCredsFile="/data/scripts/mysqlCredentials.sh"
 mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
@@ -19,6 +20,7 @@ cut=$(command -v cut)
 qrencode=$(command -v qrencode)
 curl=$(command -v curl)
 awk=$(command -v awk)
+echo=$(command -v echo)
 find=$(command -v find)
 tail=$(command -v tail)
 ip=$(command -v ip)
@@ -26,7 +28,7 @@ cat=$(command -v cat)
 rm=$(command -v rm)
 ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
 threads="16" #Number of threads to use in video conversion. Do not use more than 16.
-id=$(curl --silent http://169.254.169.254/latest/meta-data/instance-id)
+id=$(timeout 5 curl --silent http://169.254.169.254/latest/meta-data/instance-id)
 [[ -z $id ]] && id=$($ip -4 addr show $interface | $awk -F'[ /]+' '/global/ {print $3}')
 
 #Make all the directories if they aren't there.
@@ -41,13 +43,13 @@ processupload() {
 local job="$1"
 if [[ -z $job ]]; then
     #No job file passed? Exit.
-    echo "No job passed" >> $log
+    $echo "No job passed" >> $log
     return 1
 fi
 
 if [[ ! -e $job ]]; then
     #Job file does not exist? Exit.
-    echo "$job does not exist"
+    $echo "$job does not exist"
     return 1
 fi
 
@@ -57,53 +59,53 @@ source $job
 
 if [[ -z $file ]]; then
     #No file passed? Exit.
-    echo "No file passed" >> $log
+    $echo "No file passed" >> $log
     return 1
 fi
 
 
 if [[ -z $vTitle ]]; then
     #No vTitle passed? Exit.
-    echo "No vTitle passed" >> $log
+    $echo "No vTitle passed" >> $log
     return 1
 fi
 
 
 if [[ -z $uID ]]; then
     #No user passed? Exit.
-    echo "No uID passed" >> $log
+    $echo "No uID passed" >> $log
     return 1
 fi
 
 
 #Troubleshooting line
-#echo "file=\"$file\" vTitle=\"$vTitle\" uID=\"$uID\"" >> $log
+#$echo "file=\"$file\" vTitle=\"$vTitle\" uID=\"$uID\"" >> $log
 
 
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
-    echo "\"$file\" doesn't exist" >> $log
+    $echo "\"$file\" doesn't exist" >> $log
     return 1
 fi
 
 if [[ -z $mysql ]]; then
     #mysql not present.
-    echo "mysql not available" >> $log
+    $echo "mysql not available" >> $log
     return 1
 fi
 
 if [[ -z $sha256sum ]]; then
-    echo "sha256sum not available" >> $log
+    $echo "sha256sum not available" >> $log
     return 1
 fi
 
 if [[ -z $cut ]]; then
-    echo "cut not available" >> $log
+    $echo "cut not available" >> $log
     return 1
 fi
 
 if [[ ! -e $dbCredsFile ]]; then
-    echo "DB Credentials file \"$dbCredsFile\" doesn't exist" >> $log
+    $echo "DB Credentials file \"$dbCredsFile\" doesn't exist" >> $log
     return 1
 fi
 source $dbCredsFile
@@ -144,8 +146,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             extension="mp4"
             file="${tmpDir}/${filename}.${extension}"
         else
-            echo "Error converting file. Command was:" >> $log
-            echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" -vcodec copy -acodec copy \"${tmpDir}/${filename}.mp4\"" >> $log
+            $echo "Error converting file. Command was:" >> $log
+            $echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" -vcodec copy -acodec copy \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
             return 1
         fi
@@ -157,8 +159,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             extension="mp4"
             file="${tmpDir}/${filename}.${extension}"
         else
-            echo "Error converting file. Command was:" >> $log
-            echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
+            $echo "Error converting file. Command was:" >> $log
+            $echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
             return 1
         fi
@@ -173,7 +175,7 @@ sum=$( $sha256sum $file | $cut -d' ' -f1)
 
 if [[ "${#sum}" != "64" ]]; then
     #Sum is not 64 characters? Exit.
-    echo "sum is not 64 characters, was ${#sum}" >> $log
+    $echo "sum is not 64 characters, was ${#sum}" >> $log
     return 1
 else
     vID="${sum}.${extension}"
@@ -185,13 +187,13 @@ $mysql $options "INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\
 result=$?
 if [[ "$result" != "0" ]]; then
     #Insert failed? Exit.
-    echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")" >> $log
+    $echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")" >> $log
     return 1
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")"
 result=$?
 if [[ "$result" != "0" ]]; then
-    echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")" >> $log
+    $echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")" >> $log
     #Insert failed? Exit.
     return 1
 fi
@@ -199,10 +201,10 @@ fi
 
 #Move the file into place.
 mv $file ${videoDir}/${vID}
-#echo "mv $file ${videoDir}/${vID}" >> $log
+#$echo "mv $file ${videoDir}/${vID}" >> $log
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
-    echo "Move failed for $file" >> $log
+    $echo "Move failed for $file" >> $log
     return 1
 else
     #Generate a QR code for the link.
@@ -211,7 +213,7 @@ else
     fi
     $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
     if [[ "$?" != 0 ]]; then
-        echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
+        $echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
         return 1
     fi
 fi
