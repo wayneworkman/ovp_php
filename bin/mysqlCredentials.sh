@@ -1,4 +1,4 @@
-mysqlUser=""
-mysqlPass=""
-mysqlHost=""
+mysqlUser="processvideo"
+mysqlPass="processvideopassword"
+mysqlHost="localhost"
 database="ovp"
