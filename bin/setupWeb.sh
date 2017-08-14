@@ -16,15 +16,11 @@ banner
 checkForRoot
 checkOS
 updateServer
-checkOrInstallPackages "0"
-setupDB
+installWeb "0"
 placeFiles
-getFfmpeg
-checkFfmpeg
 configurePHP
 configureApache
-configureMysql
-configureFirewalld
+configureFirewalldWeb
 disableSelinux
 
 echo ' '

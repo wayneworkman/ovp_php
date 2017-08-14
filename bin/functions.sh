@@ -90,10 +90,20 @@ setupConversion() {
     systemctl restart processupload.service
     [[ $? -eq 0 ]] && echo "Succcess" || echo "Failed"
 }
-configureFirewalld() {
+configureFirewalldWeb() {
     dots "Configure firewalld if present"
     if [[ -e $(command -v firewall-cmd) ]]; then
         for service in http https; do firewall-cmd --permanent --zone=public --add-service=$service; done > /dev/null 2>&1
+        systemctl restart firewalld
+        echo "Configured"
+    else
+        echo "Not needed"
+    fi
+}
+configureFirewalldDb() {
+    dots "Configure firewalld if present"
+    if [[ -e $(command -v firewall-cmd) ]]; then
+        for service in mysql; do firewall-cmd --permanent --zone=public --add-service=$service; done > /dev/null 2>&1
         systemctl restart firewalld
         echo "Configured"
     else
@@ -198,10 +208,44 @@ installCurl() {
         fi
     fi
 }
-checkOrInstallPackages() {
-    local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server qrencode mediainfo wget"
+installDb() {
+    local rhelPackages="mariadb-server"
+    local rhel7extras=""
+    local debianPackages="mysql-client mysql-common mysql-server"
+    local silent="$1"
+    if [[ "$silent" -eq 0 ]]; then
+        dots "Installing packages"
+    fi
+    local useYum=$(command -v yum)
+    local useDnf=$(command -v dnf)
+    local useAptGet=$(command -v apt-get)
+    if [[ -e "$useDnf" ]]; then
+        dnf -y install $rhelPackages > /dev/null 2>&1
+        if [[ "$silent" -eq 0 ]]; then
+            [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
+        fi
+    elif [[ -e "$useYum" ]]; then
+        yum -y install $rhelPackages > /dev/null 2>&1
+        if [[ "$silent" -eq 0 ]]; then
+            [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
+        fi
+    elif [[ -e "$useAptGet" ]]; then
+        DEBIAN_FRONTEND=noninteractive apt-get -y install $debianPackages > /dev/null 2>&1
+        if [[ "$silent" -eq 0 ]]; then
+            [[ $? -eq 0 ]] && echo "Installed" || echo "Failed"
+        fi
+    else
+        #Unable to determine repo manager.
+        if [[ "$silent" -eq 0 ]]; then
+            echo "Unable to determine repo manager."
+        fi
+        return 1
+    fi
+}
+installWeb() {
+    local rhelPackages="php httpd php-mysqlnd setroubleshoot-server"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
-    local debianPackages="mysql-client mysql-common mysql-server apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo wget"
+    local debianPackages="apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo wget"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
         dots "Installing packages"

@@ -16,14 +16,16 @@ banner
 checkForRoot
 checkOS
 updateServer
-installCurl
-getFfmpeg
-checkFfmpeg
-setupConversion
-
-
+installDb "0"
+setupDB
+placeFiles
+configureMysql
+configureFirewalldDb
+disableSelinux
 
 echo ' '
 echo ' '
-echo 'processupload.service should be running, will immediately begin processing jobs.'
+echo 'Default user:pass is:'
+echo 'admin'
+echo 'changeme'
 echo ' '
