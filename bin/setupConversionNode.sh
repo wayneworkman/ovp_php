@@ -16,5 +16,6 @@ banner
 checkForRoot
 checkOS
 updateServer
+installCurl
 checkFfmpeg
 setupConversion

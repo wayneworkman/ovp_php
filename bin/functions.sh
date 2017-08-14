@@ -173,6 +173,27 @@ configureMysql() {
         systemctl enable mysql > /dev/null 2>&1
     fi
 }
+installCurl() {
+    if [[ -z $(command -v curl) ]]; then
+        if [[ ! -z $(command -v dnf) ]]; then
+            dnf -y install curl > /dev/null 2>&1
+            result=$?
+        elif [[ ! -z $(command -v yum) ]]; then
+            yum -y install curl > /dev/null 2>&1
+            result=$?
+        elif [[ ! -z $(command -v apt-get) ]]; then
+            apt-get -y install curl > /dev/null 2>&1
+            result=$?
+        else
+            echo "Don't know how to install curl, please install it first."
+        fi
+        if [[ "$result" == "0" ]]; then
+            echo "curl successfully installed."
+        else
+            echo "curl failed to install, exit code was \"$result\". Please install it first."
+        fi
+    fi
+}
 checkOrInstallPackages() {
     local rhelPackages="mariadb-server php httpd php-mysqlnd setroubleshoot-server qrencode mediainfo wget"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"

@@ -16,10 +16,18 @@ mysql=$(command -v mysql)
 sha256sum=$(command -v sha256sum)
 cut=$(command -v cut)
 qrencode=$(command -v qrencode)
+curl=$(command -v curl)
+awk=$(command -v awk)
+find=$(command -v find)
+tail=$(command -v tail)
+ip=$(command -v ip)
+cat=$(command -v cat)
+interface="eth0"
 rm=$(command -v rm)
 ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
 threads="16" #Number of threads to use in video conversion. This is per-process.
-
+id=$(curl --silent http://169.254.169.254/latest/meta-data/instance-id)
+[[ -z $id ]] && id=$($ip -4 addr show $interface | $awk -F'[ /]+' '/global/ {print $3}')
 
 #Make all the directories if they aren't there.
 mkdir -p $videoDir
@@ -226,11 +234,20 @@ unset job
 
 
 while true; do
-    for job in $(find /data/jobs -type f)
+    #This loop just does one job per loop to keep things simple.
+    for job in $($find /data/jobs -type f -name '*.job' | $tail -n 1)
     do
+        #Check if there is a lock file or not. If so, break.
+        [[ -e ${job}.lock ]] && break
+        #If we are here, there is no lock file. So try to write the lock file, overwrite any existing data in the file.
+        $echo $id > ${job}.lock
+        #Now we check to see if we successfully aquired the lock or not. If we did not, break.
+        [[ $($cat ${job}.lock) != $id ]] && break
+
+        #If we got this far, we can process the job because we have the lock.
         processupload "$job"
     done
-    sleep 5
+    sleep 7
 done
 
 
