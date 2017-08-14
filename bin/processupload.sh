@@ -218,8 +218,9 @@ else
     fi
 fi
 
-#If we've got this far, we're OK to delete the job file.
+#If we've got this far, we're OK to delete the job file and lock.
 rm -f $job
+rm -f ${job}.lock
 
 #cleanup.
 unset file
