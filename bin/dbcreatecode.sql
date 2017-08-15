@@ -74,18 +74,18 @@ INSERT INTO globalSettings (settingKey,settingDesc,settingValue) VALUES ('schema
 
 INSERT INTO Users (Username,Password,UserEnabled,IsAdmin) VALUES ('admin','$2y$10$UivHA1lp.4e7fEDj.C6h9eWCGctGQtV3wlsJqaqTDMTih5ukDTaTi','1','1');
 
-CREATE USER 'web'@'localhost' IDENTIFIED BY 'webpassword';
-CREATE USER 'processvideo'@'localhost' IDENTIFIED BY 'processvideopassword';
+CREATE USER 'web'@'10.0.0.0/255.255.0.0' IDENTIFIED BY 'webpassword';
+CREATE USER 'processvideo'@'10.0.0.0/255.255.0.0' IDENTIFIED BY 'processvideopassword';
 
-GRANT ALL ON ovp.blockedIPs TO 'web'@'localhost';
-GRANT ALL ON ovp.Sessions TO 'web'@'localhost';
-GRANT ALL ON ovp.badLoginAttempts TO 'web'@'localhost';
-GRANT ALL ON ovp.Users TO 'web'@'localhost';
-GRANT ALL ON ovp.globalSettings TO 'web'@'localhost';
-GRANT ALL ON ovp.Videos TO 'web'@'localhost';
-GRANT ALL ON ovp.UserVideoAssoc TO 'web'@'localhost';
-GRANT ALL ON ovp.Videos TO 'processvideo'@'localhost';
-GRANT ALL ON ovp.UserVideoAssoc TO 'processvideo'@'localhost';
+GRANT ALL ON ovp.blockedIPs TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.Sessions TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.badLoginAttempts TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.Users TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.globalSettings TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.Videos TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.UserVideoAssoc TO 'web'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.Videos TO 'processvideo'@'10.0.0.0/255.255.0.0';
+GRANT ALL ON ovp.UserVideoAssoc TO 'processvideo'@'10.0.0.0/255.255.0.0';
 
 
 
