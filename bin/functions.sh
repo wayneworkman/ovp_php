@@ -315,11 +315,26 @@ checkForRoot() {
 }
 setupDB() {
     dots "Checking for ovp database"
-    DBExists=$(mysql -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'ovp'")
+
+    #Set mysql options.
+    options="-sN"
+    if [[ $mysqlHost != "" ]]; then
+        options="$options -h$mysqlHost"
+    fi
+    if [[ $mysqlUser != "" ]]; then
+        options="$options -u$mysqlUser"
+    fi
+    if [[ $mysqlPass != "" ]]; then
+        options="$options -p$mysqlPass"
+    fi
+    options="$options -D $database -e"
+
+
+    DBExists=$(mysql $options "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'ovp'")
     if [[ "$DBExists" != "ovp" ]]; then
         echo "Does not exist"
         dots "Creating ovp database"
-        mysql < dbcreatecode.sql > /dev/null 2>&1
+        mysql $options < dbcreatecode.sql > /dev/null 2>&1
         [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     else
         echo "Exists"
