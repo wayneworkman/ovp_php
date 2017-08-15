@@ -355,7 +355,9 @@ setupRemoteDb() {
     if [[ $mysqlPass != "" ]]; then
         options="$options -p$mysqlPass"
     fi
-    options="$options -D $database -e"
+    options="$options -D $database "
+
+    echo "mysql $options < dbcreatecode.sql"
 
     mysql $options < dbcreatecode.sql > /dev/null 2>&1
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
