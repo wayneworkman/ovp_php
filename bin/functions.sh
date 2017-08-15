@@ -357,7 +357,7 @@ setupRemoteDb() {
     fi
     options="$options -D $database "
 
-    echo "mysql $options < dbcreatecode.sql"
+    #echo "mysql $options < dbcreatecode.sql"
 
     mysql $options < dbcreatecode.sql > /dev/null 2>&1
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
