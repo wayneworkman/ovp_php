@@ -25,14 +25,6 @@ echo "mysqlHost=\"localhost\"" >> $cwd/mysqlCredentials.sh
 echo "database=\"ovp\"" >> $cwd/mysqlCredentials.sh
 
 
-post_max_size="5G"
-upload_max_filesize="5G"
-memory_limit="5G"
-max_execution_time="30000"
-max_input_time="30000"
-
-
-
 
 banner
 checkForRoot
