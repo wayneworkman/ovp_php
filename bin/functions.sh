@@ -340,6 +340,28 @@ setupDB() {
         echo "Exists"
     fi
 }
+setupRemoteDb() {
+
+    dots "Setting up remote DB"
+
+    #Set mysql options.
+    options="-sN"
+    if [[ $mysqlHost != "" ]]; then
+        options="$options -h$mysqlHost"
+    fi
+    if [[ $mysqlUser != "" ]]; then
+        options="$options -u$mysqlUser"
+    fi
+    if [[ $mysqlPass != "" ]]; then
+        options="$options -p$mysqlPass"
+    fi
+    options="$options -D $database -e"
+
+    mysql $options < dbcreatecode.sql > /dev/null 2>&1
+    [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
+
+
+}
 disableSelinux() {
     if [[ -e $(command -v setenforce) ]]; then
         dots "Setting SELinux to permissive"
