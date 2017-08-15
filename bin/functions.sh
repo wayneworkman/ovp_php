@@ -249,7 +249,7 @@ installDb() {
 installWeb() {
     local rhelPackages="php httpd php-mysqlnd setroubleshoot-server"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
-    local debianPackages="apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo wget"
+    local debianPackages="apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
         dots "Installing packages"
@@ -288,7 +288,7 @@ installWeb() {
 getFfmpeg() {
     dots "Getting ffmpeg"
     #Get it. Could probably be done with curl - but curl doesn't come standard either. It's like choosing what t-shirt to put on. Meh.
-    wget --quiet -O /tmp/ffmpeg-release-64bit-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
+    curl --silent https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz > /tmp/ffmpeg-release-64bit-static.tar.xz
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     dots "Extracting ffmpeg"
     #Make directories if not present.
