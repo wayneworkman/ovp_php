@@ -1,7 +1,7 @@
 <?php
 
 // Database connect settings.
-$servername = 'localhost';
+$servername = 'ovp.cu1wnaspvbot.us-east-2.rds.amazonaws.com';
 $username = 'web';
 $password = 'webpassword';
 $database = 'ovp';

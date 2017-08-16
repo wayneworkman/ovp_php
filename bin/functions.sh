@@ -249,7 +249,7 @@ installDb() {
 installWeb() {
     local rhelPackages="php httpd php-mysqlnd setroubleshoot-server mod_ssl certbot-apache"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
-    local debianPackages="apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo wget"
+    local debianPackages="apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo"
     local silent="$1"
     if [[ "$silent" -eq 0 ]]; then
         dots "Installing packages"
@@ -288,7 +288,7 @@ installWeb() {
 getFfmpeg() {
     dots "Getting ffmpeg"
     #Get it. Could probably be done with curl - but curl doesn't come standard either. It's like choosing what t-shirt to put on. Meh.
-    wget --quiet -O /tmp/ffmpeg-release-64bit-static.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
+    curl --silent https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz > /tmp/ffmpeg-release-64bit-static.tar.xz
     [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     dots "Extracting ffmpeg"
     #Make directories if not present.
@@ -315,15 +315,54 @@ checkForRoot() {
 }
 setupDB() {
     dots "Checking for ovp database"
-    DBExists=$(mysql -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'ovp'")
+
+    #Set mysql options.
+    options="-sN"
+    if [[ $mysqlHost != "" ]]; then
+        options="$options -h$mysqlHost"
+    fi
+    if [[ $mysqlUser != "" ]]; then
+        options="$options -u$mysqlUser"
+    fi
+    if [[ $mysqlPass != "" ]]; then
+        options="$options -p$mysqlPass"
+    fi
+    options="$options -D $database -e"
+
+
+    DBExists=$(mysql $options "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'ovp'")
     if [[ "$DBExists" != "ovp" ]]; then
         echo "Does not exist"
         dots "Creating ovp database"
-        mysql < dbcreatecode.sql > /dev/null 2>&1
+        mysql $options < dbcreatecode.sql > /dev/null 2>&1
         [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
     else
         echo "Exists"
     fi
+}
+setupRemoteDb() {
+
+    dots "Setting up remote DB"
+
+    #Set mysql options.
+    options="-sN"
+    if [[ $mysqlHost != "" ]]; then
+        options="$options -h$mysqlHost"
+    fi
+    if [[ $mysqlUser != "" ]]; then
+        options="$options -u$mysqlUser"
+    fi
+    if [[ $mysqlPass != "" ]]; then
+        options="$options -p$mysqlPass"
+    fi
+    options="$options -D $database "
+
+    #echo "mysql $options < dbcreatecode.sql"
+
+    mysql $options < dbcreatecode.sql > /dev/null 2>&1
+    [[ $? -eq 0 ]] && echo "Ok" || echo "Failed"
+
+
 }
 disableSelinux() {
     if [[ -e $(command -v setenforce) ]]; then
