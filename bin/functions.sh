@@ -247,7 +247,7 @@ installDb() {
     fi
 }
 installWeb() {
-    local rhelPackages="php httpd php-mysqlnd setroubleshoot-server"
+    local rhelPackages="php httpd php-mysqlnd setroubleshoot-server mod_ssl certbot-apache"
     local rhel7extras="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils"
     local debianPackages="apache2 libapache2-mod-php5 php5 php5-common php5-cli php5-mysql php5-mcrypt qrencode mediainfo wget"
     local silent="$1"
