@@ -139,11 +139,17 @@ extension="${filename##*.}"
 if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
     #It's not mp4, convert it. Try to preserve encoding instead of re-encoding if possible.
 
+    #If the temporary file already exists, delete it.
+    if [[ -e "${tmpDir}/${filename}.mp4" ]]; then
+        rm -f "${tmpDir}/${filename}.mp4"
+    fi
+
+
     if [[ "$extension" == "mkv" || "$extension" == "MKV" ]]; then
         # mkv conversion command here.
         $ffmpeg -loglevel quiet -threads $threads -i "$file" -vcodec copy -acodec copy "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
-            $rm -f $file
+            local originalFile=$file
             extension="mp4"
             file="${tmpDir}/${filename}.${extension}"
         else
@@ -156,7 +162,7 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
         # Best shot here.
         $ffmpeg -loglevel quiet -threads $threads -i "$file" "${tmpDir}/${filename}.mp4"
         if [[ $? -eq 0 ]]; then
-            $rm -f $file
+            local originalFile=$file
             extension="mp4"
             file="${tmpDir}/${filename}.${extension}"
         else
@@ -222,6 +228,12 @@ fi
 #If we've got this far, we're OK to delete the job file and lock.
 rm -f $job
 rm -f ${job}.lock
+
+#Delete the original file if it exists.
+if [[ -e $originalFile ]]; then
+    rm -f $originalFile
+fi
+
 
 #cleanup.
 unset file
