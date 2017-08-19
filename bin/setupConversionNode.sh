@@ -32,6 +32,7 @@ checkForRoot
 checkOS
 #updateServer
 installCurl
+installMysql
 getFfmpeg
 checkFfmpeg
 setupConversion

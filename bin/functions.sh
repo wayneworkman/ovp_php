@@ -212,6 +212,27 @@ installCurl() {
         fi
     fi
 }
+installMysql() {
+    if [[ -z $(command -v mysql) ]]; then
+        if [[ ! -z $(command -v dnf) ]]; then
+            dnf -y install mariadb > /dev/null 2>&1
+            result=$?
+        elif [[ ! -z $(command -v yum) ]]; then
+            yum -y install mariadb > /dev/null 2>&1
+            result=$?
+        elif [[ ! -z $(command -v apt-get) ]]; then
+            apt-get -y install mariadb > /dev/null 2>&1
+            result=$?
+        else
+            echo "Don't know how to install mariadb, please install it first."
+        fi
+        if [[ "$result" == "0" ]]; then
+            echo "mariadb successfully installed."
+        else
+            echo "mariadb failed to install, exit code was \"$result\". Please install it first."
+        fi
+    fi
+}
 installDb() {
     local rhelPackages="mariadb-server"
     local rhel7extras=""
