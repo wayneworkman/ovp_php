@@ -73,7 +73,7 @@ if ($SessionIsVerified == "1") {
 
                 //$command = "$processScript '$target_file' '$vTitle' '$UserID' &";
 		//shell_exec($command);
-		setMessage("Your video will appear in Home after any necessary conversion.<br>\nTo avoid waiting in the future, upload in mp4 format.","UploadPage.php");
+		setMessage("Your video will appear in Home after any necessary conversion.<br>To avoid waiting in the future, upload in mp4 format.","UploadPage.php");
 
 
 	} else {
