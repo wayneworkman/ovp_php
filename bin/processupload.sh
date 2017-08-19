@@ -26,8 +26,9 @@ tail=$(command -v tail)
 ip=$(command -v ip)
 cat=$(command -v cat)
 rm=$(command -v rm)
+nproc=$(command -v nproc)
 ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
-threads=$(nproc --all) #Number of threads to use in video conversion. Do not use more than 16.
+threads=$($nproc --all) #Number of threads to use in video conversion. Do not use more than 16.
 id=$(timeout 5 curl --silent http://169.254.169.254/latest/meta-data/instance-id)
 [[ -z $id ]] && id=$($ip -4 addr show $interface | $awk -F'[ /]+' '/global/ {print $3}')
 
