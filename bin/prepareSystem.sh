@@ -5,7 +5,7 @@ yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum -y install yum-utils
 yum-config-manager --enable remi-php71
 yum -y update
-yum -y install php httpd php-mysqlnd mariadb curl qrencode setroubleshoot-server git vim
+yum -y install php httpd php-mysqlnd mariadb curl qrencode git vim
 
 
 
