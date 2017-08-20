@@ -4,27 +4,6 @@ source "$cwd/functions.sh"
 source "$cwd/mysqlCredentials.sh"
 
 
-#Check for passed mysql connection info after sourcing mysql credentials file.
-if [[ ! -z $1 ]]; then
-    mysqlUser="$1"
-fi
-if [[ ! -z $2 ]]; then
-    mysqlPass="$2"
-fi
-if [[ ! -z $3 ]]; then
-    mysqlHost="$3"
-fi
-if [[ ! -z $4 ]]; then
-    database="$4"
-fi
-
-#Write the vars back to the files because any passed are likely not the ones stored.
-echo "#!/bin/bash" > $cwd/mysqlCredentials.sh
-echo "mysqlUser=\"$mysqlUser\"" >> $cwd/mysqlCredentials.sh
-echo "mysqlPass=\"$mysqlPass\"" >> $cwd/mysqlCredentials.sh
-echo "mysqlHost=\"$mysqlHost\"" >> $cwd/mysqlCredentials.sh
-echo "database=\"$database\"" >> $cwd/mysqlCredentials.sh
-
 
 
 banner
