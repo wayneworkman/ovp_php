@@ -212,6 +212,27 @@ installCurl() {
         fi
     fi
 }
+installQrencode() {
+    if [[ -z $(command -v qrencode) ]]; then
+        if [[ ! -z $(command -v dnf) ]]; then
+            dnf -y install qrencode > /dev/null 2>&1
+            result=$?
+        elif [[ ! -z $(command -v yum) ]]; then
+            yum -y install qrencode > /dev/null 2>&1
+            result=$?
+        elif [[ ! -z $(command -v apt-get) ]]; then
+            apt-get -y install qrencode > /dev/null 2>&1
+            result=$?
+        else
+            echo "Don't know how to install qrencode, please install it first."
+        fi
+        if [[ "$result" == "0" ]]; then
+            echo "qrencode successfully installed."
+        else
+            echo "qrencode failed to install, exit code was \"$result\". Please install it first."
+        fi
+    fi
+}
 installMysql() {
     if [[ -z $(command -v mysql) ]]; then
         if [[ ! -z $(command -v dnf) ]]; then

@@ -12,6 +12,7 @@ checkOS
 #updateServer
 installCurl
 installMysql
+installQrencode
 getFfmpeg
 checkFfmpeg
 setupConversion
