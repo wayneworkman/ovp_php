@@ -23,7 +23,6 @@ curl=$(command -v curl)
 awk=$(command -v awk)
 echo=$(command -v echo)
 find=$(command -v find)
-tail=$(command -v tail)
 ip=$(command -v ip)
 cat=$(command -v cat)
 rm=$(command -v rm)
@@ -282,7 +281,7 @@ unset job
 
 while true; do
     #This loop just does one job per loop to keep things simple.
-    for job in $($find /data/jobs -type f -name '*.job' | $tail -n 1)
+    for job in $($find /data/jobs -type f -name '*.job')
     do
         #Check if there is a lock file or not. If so, continue.
         [[ -e ${job}.lock ]] && continue
