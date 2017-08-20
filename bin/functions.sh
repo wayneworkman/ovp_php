@@ -193,6 +193,7 @@ configureMysql() {
 }
 installCurl() {
     if [[ -z $(command -v curl) ]]; then
+        dots "Installing curl"
         if [[ ! -z $(command -v dnf) ]]; then
             dnf -y install curl > /dev/null 2>&1
             result=$?
@@ -214,6 +215,7 @@ installCurl() {
 }
 installQrencode() {
     if [[ -z $(command -v qrencode) ]]; then
+        dots "Installing qrencode"
         if [[ ! -z $(command -v dnf) ]]; then
             dnf -y install qrencode > /dev/null 2>&1
             result=$?
@@ -235,6 +237,7 @@ installQrencode() {
 }
 installMysql() {
     if [[ -z $(command -v mysql) ]]; then
+        dots "Installing mariadb"
         if [[ ! -z $(command -v dnf) ]]; then
             dnf -y install mariadb > /dev/null 2>&1
             result=$?
