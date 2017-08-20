@@ -1,8 +1,5 @@
 #!/bin/bash
 cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$cwd/functions.sh"
-
-
 
 
 if [[ -e /data/scripts/mysqlCredentials.sh ]]; then
