@@ -11,6 +11,7 @@ videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 jobs="/data/jobs"
+problemJobs="/data/problemJobs"
 log="/data/logs/processVideo.log"
 timeout=$(command -v timeout)
 dbCredsFile="/data/scripts/mysqlCredentials.sh"
@@ -37,6 +38,7 @@ mkdir -p $videoDir
 mkdir -p $tmpDir
 mkdir -p $qrCodes
 mkdir -p $jobs
+mkdir -p $problemJobs
 
 processupload() {
 
@@ -45,12 +47,16 @@ local job="$1"
 if [[ -z $job ]]; then
     #No job file passed? Exit.
     $echo "No job passed" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
 if [[ ! -e $job ]]; then
     #Job file does not exist? Exit.
     $echo "$job does not exist"
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
@@ -61,6 +67,8 @@ source $job
 if [[ -z $file ]]; then
     #No file passed? Exit.
     $echo "No file passed" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
@@ -68,6 +76,8 @@ fi
 if [[ -z $vTitle ]]; then
     #No vTitle passed? Exit.
     $echo "No vTitle passed" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
@@ -75,6 +85,8 @@ fi
 if [[ -z $uID ]]; then
     #No user passed? Exit.
     $echo "No uID passed" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
@@ -86,27 +98,37 @@ fi
 if [[ ! -e $file ]]; then
     #File doesn't exist? Exit.
     $echo "\"$file\" doesn't exist" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
 if [[ -z $mysql ]]; then
     #mysql not present.
     $echo "mysql not available" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
 if [[ -z $sha256sum ]]; then
     $echo "sha256sum not available" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
 if [[ -z $cut ]]; then
     $echo "cut not available" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
 if [[ ! -e $dbCredsFile ]]; then
     $echo "DB Credentials file \"$dbCredsFile\" doesn't exist" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 source $dbCredsFile
@@ -156,6 +178,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             $echo "Error converting file. Command was:" >> $log
             $echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" -vcodec copy -acodec copy \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
+            mv $job $problemJobs
+            $rm -f ${job}.lock
             return 1
         fi
     else
@@ -169,6 +193,8 @@ if [[ "$extension" != "mp4" && "$extension" != "MP4" ]]; then
             $echo "Error converting file. Command was:" >> $log
             $echo "$ffmpeg -loglevel quiet -threads $threads -i \"$file\" \"${tmpDir}/${filename}.mp4\"" >> $log
             rm -f "${tmpDir}/${filename}.mp4" > /dev/null 2>&1
+            mv $job $problemJobs
+            $rm -f ${job}.lock
             return 1
         fi
     fi
@@ -183,6 +209,8 @@ sum=$( $sha256sum $file | $cut -d' ' -f1)
 if [[ "${#sum}" != "64" ]]; then
     #Sum is not 64 characters? Exit.
     $echo "sum is not 64 characters, was ${#sum}" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 else
     vID="${sum}.${extension}"
@@ -195,6 +223,8 @@ result=$?
 if [[ "$result" != "0" ]]; then
     #Insert failed? Exit.
     $echo "Insert into Videos failed, exit code $result : INSERT INTO Videos (vID,vTitle) VALUES (\"${vID}\",\"${vTitle}\")" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 $mysql $options "INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")"
@@ -202,6 +232,8 @@ result=$?
 if [[ "$result" != "0" ]]; then
     $echo "Insert into UserVideoAssoc failed, exit code $result : INSERT INTO UserVideoAssoc (vID,uID) VALUES (\"${vID}\",\"${uID}\")" >> $log
     #Insert failed? Exit.
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 fi
 
@@ -212,6 +244,8 @@ mv $file ${videoDir}/${vID}
 if [[ "$?" != 0 ]]; then
     #Move failed? Exit.
     $echo "Move failed for $file" >> $log
+    mv $job $problemJobs
+    $rm -f ${job}.lock
     return 1
 else
     #Generate a QR code for the link.
@@ -221,6 +255,8 @@ else
     $qrencode -o ${qrCodes}/${sum}.png "https://${domainName}/player.php?v=${vID}"
     if [[ "$?" != 0 ]]; then
         $echo "QR generation failed for \"https://${domainName}/player.php?v=${vID}\"" >> $log
+        mv $job $problemJobs
+        $rm -f ${job}.lock
         return 1
     fi
 fi
