@@ -20,10 +20,10 @@ fi
 
 #Write the vars back to the files because any passed are likely not the ones stored.
 echo "#!/bin/bash" > $cwd/mysqlCredentials.sh
-echo "mysqlUser=\"processvideo\"" >> $cwd/mysqlCredentials.sh
-echo "mysqlPass=\"processvideopassword\"" >> $cwd/mysqlCredentials.sh
-echo "mysqlHost=\"localhost\"" >> $cwd/mysqlCredentials.sh
-echo "database=\"ovp\"" >> $cwd/mysqlCredentials.sh
+echo "mysqlUser=\"$mysqlUser\"" >> $cwd/mysqlCredentials.sh
+echo "mysqlPass=\"$mysqlPass\"" >> $cwd/mysqlCredentials.sh
+echo "mysqlHost=\"$mysqlHost\"" >> $cwd/mysqlCredentials.sh
+echo "database=\"$database\"" >> $cwd/mysqlCredentials.sh
 
 
 
