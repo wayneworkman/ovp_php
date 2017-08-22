@@ -8,6 +8,7 @@ yum-config-manager --enable remi-php71
 yum -y update
 yum -y install php httpd php-mysqlnd mariadb curl qrencode git vim python2-pip
 pip install --upgrade pip
+pip install awscli --upgrade
 pip install pystache
 pip install argparse
 
