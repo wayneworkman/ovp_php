@@ -9,6 +9,10 @@ yum -y update
 yum -y install php httpd php-mysqlnd mariadb curl qrencode git vim python2-pip
 pip install --upgrade pip
 pip install awscli --upgrade
+mkdir -p /root/.aws
+echo '[default]' > /root/.aws/config
+echo 'region = us-east-2' >> /root/.aws/config
+chmod 600 /root/.aws/config
 pip install pystache
 pip install argparse
 
