@@ -11,6 +11,7 @@ videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 jobs="/data/jobs"
+conversionNodes="/data/conversionNodes"
 problemJobs="/data/problemJobs"
 log="/data/logs/processVideo.log"
 timeout=$(command -v timeout)
@@ -38,6 +39,7 @@ mkdir -p $tmpDir
 mkdir -p $qrCodes
 mkdir -p $jobs
 mkdir -p $problemJobs
+mkdir -p $conversionNodes
 
 processupload() {
 
@@ -280,6 +282,9 @@ unset job
 
 
 while true; do
+    #While running, set the ID file.
+    touch ${conversionNodes}/${id}
+
     #This loop just does one job per loop to keep things simple.
     for job in $($find /data/jobs -type f -name '*.job')
     do
