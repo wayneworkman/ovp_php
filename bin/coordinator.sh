@@ -50,8 +50,16 @@ done
 
 #Notes:
 
+#This gets current desired capacity of an autoscaling group.
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9 | jq '.AutoScalingGroups[0] .DesiredCapacity'
+
+
 aws autoscaling terminate-instance-in-auto-scaling-group --instance-id <value> --should-decrement-desired-capacity
 aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9
+
+
+
+
 
 
 
