@@ -35,12 +35,25 @@
 
 
 while true; do
+    groupName="Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9"
+    desiredCapacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $groupName | jq '.AutoScalingGroups[0] .DesiredCapacity')
+
+
     #This loop just does one job per loop to keep things simple.
     for job in $($find /data/jobs -type f -name '*.job')
     do
 
-
-
+        #Check to see if there's not a lock for this job.
+        if [[ ! -e ${job}.lock ]]; then
+            #Here, we have a job without a lock. If desiredCapacity is currently 0, we need to bump it to one.
+            if [[ "$desiredCapacity" == "0" ]]; then
+                aws autoscaling set-desired-capacity --auto-scaling-group-name $groupName --desired-capacity 1
+            else
+                #Here, we have a non-zero DesiredCapacity, which means 1 or greater.
+                #We need to figure out if we should increase DesiredCapacity or not based on how many jobs without locks we have.
+                echo "Do cool stuff here"
+            fi
+        fi
 
     done
     sleep 7
@@ -55,7 +68,6 @@ aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names Perpetuu
 
 
 aws autoscaling terminate-instance-in-auto-scaling-group --instance-id <value> --should-decrement-desired-capacity
-aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9
 
 
 
