@@ -45,6 +45,7 @@ fi
 curl --silent https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz > /opt/aws-cfn-bootstrap-latest.tar.gz
 tar -xzf /opt/aws-cfn-bootstrap-latest.tar.gz -C /opt
 rm -f /opt/aws-cfn-bootstrap-latest.tar.gz
+rm -rf /opt/aws
 mv /opt/aws-cfn-bootstrap* /opt/aws
 cd /opt/aws
 python setup.py build
