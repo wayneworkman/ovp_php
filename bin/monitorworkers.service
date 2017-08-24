@@ -1,0 +1,8 @@
+[Unit]
+Description="This service decides when instances are removed from autoscaling groups."
+ConditionFileIsExecutable=/data/scripts/monitorworkers.sh
+After=multiuser.target
+
+[Service]
+Type=simple
+ExecStart=/data/scripts/monitorworkers.sh

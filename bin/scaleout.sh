@@ -34,6 +34,9 @@
 
 
 
+cooldown=300 #wait peroid after scaling out in seconds.
+
+
 while true; do
     groupName="Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9"
     desiredCapacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $groupName | jq '.AutoScalingGroups[0] .DesiredCapacity')
@@ -48,30 +51,17 @@ while true; do
             #Here, we have a job without a lock. If desiredCapacity is currently 0, we need to bump it to one.
             if [[ "$desiredCapacity" == "0" ]]; then
                 aws autoscaling set-desired-capacity --auto-scaling-group-name $groupName --desired-capacity 1
+                sleep $cooldown
             else
                 #Here, we have a non-zero DesiredCapacity, which means 1 or greater.
                 #We need to figure out if we should increase DesiredCapacity or not based on how many jobs without locks we have.
-                echo "Do cool stuff here"
+                echo "Do decision here"
             fi
         fi
 
     done
     sleep 7
 done
-
-
-
-#Notes:
-
-#This gets current desired capacity of an autoscaling group.
-aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9 | jq '.AutoScalingGroups[0] .DesiredCapacity'
-
-
-aws autoscaling terminate-instance-in-auto-scaling-group --instance-id <value> --should-decrement-desired-capacity
-
-
-
-
 
 
 

@@ -1,0 +1,8 @@
+[Unit]
+Description="This service decides when to scale out."
+ConditionFileIsExecutable=/data/scripts/scaleout.sh
+After=multiuser.target
+
+[Service]
+Type=simple
+ExecStart=/data/scripts/scaleout.sh

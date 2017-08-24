@@ -1,8 +1,0 @@
-[Unit]
-Description="Coordinate the conversion autoscaling group to some degree."
-ConditionFileIsExecutable=/data/scripts/coordinator.sh
-After=multiuser.target
-
-[Service]
-Type=simple
-ExecStart=/data/scripts/coordinator.sh

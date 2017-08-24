@@ -286,7 +286,7 @@ while true; do
     touch ${conversionNodes}/${id}
 
     #This loop just does one job per loop to keep things simple.
-    for job in $($find /data/jobs -type f -name '*.job')
+    for job in $($find $jobs -type f -name '*.job')
     do
         #Check if there is a lock file or not. If so, continue.
         [[ -e ${job}.lock ]] && continue
