@@ -6,7 +6,7 @@ cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [[ -e /usr/lib/systemd/system/scaleout.service ]]; then
     rm -f /usr/lib/systemd/system/scaleout.service
 fi
-cp $cwd/coordinator.service /usr/lib/systemd/system
+cp $cwd/scaleout.service /usr/lib/systemd/system
 if [[ -e /data/scripts/scaleout.sh ]]; then
     rm -f /data/scripts/scaleout.sh
 fi
