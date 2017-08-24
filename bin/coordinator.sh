@@ -39,7 +39,7 @@ while true; do
     desiredCapacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $groupName | jq '.AutoScalingGroups[0] .DesiredCapacity')
 
 
-    #This loop just does one job per loop to keep things simple.
+    #This loop goes through each job file.
     for job in $($find /data/jobs -type f -name '*.job')
     do
 
