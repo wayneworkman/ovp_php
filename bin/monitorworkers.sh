@@ -5,6 +5,8 @@
 #Variables.
 workers="/data/conversionNodes"
 jobs="/data/jobs"
+log="/data/logs/monitorExactWorker.log"
+
 
 mkdir -p $workers
 
@@ -25,6 +27,7 @@ while true; do
     do
         lockID=$(cat $lock | head -n 1)
         if [[ ! -e ${workers}/${lockID} ]]; then
+            echo "Node $lockID was found holding a lock, but isn't in the conversionNodes list. Removing lock $lock" >> $log
             rm -f $lock
         fi
     done
