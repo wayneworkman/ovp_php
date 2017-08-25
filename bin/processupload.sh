@@ -281,9 +281,10 @@ unset job
 }
 
 
+#Set the ID file once.
+touch ${conversionNodes}/${id}
+
 while true; do
-    #While running, set the ID file.
-    touch ${conversionNodes}/${id}
 
     #This loop just does one job per loop to keep things simple.
     for job in $($find $jobs -type f -name '*.job')

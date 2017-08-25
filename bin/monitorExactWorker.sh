@@ -13,7 +13,8 @@
 #and check it once an hour afterwards for the same thing (see if it's doing stuff). Through this script is an autoscaling member's only
 #pathway to death.
 
-
+#Variables.
+workers="/data/conversionNodes"
 jobs="/data/jobs"
 aws=$(command -v aws)
 
@@ -41,12 +42,14 @@ checks() {
         return 0
     else
         $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
+        rm -f ${workers}/${id}
         exit
     fi
 
     #If there are no jobs, kill this node.
     if [[ $(ls ${jobs}/*.job | wc -l) == "0" ]]; then
         $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
+        rm -f ${workers}/${id}
         exit
     fi
 
