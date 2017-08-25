@@ -24,8 +24,15 @@ if [[ -e /data/scripts/monitorworkers.sh ]]; then
     rm -f /data/scripts/monitorworkers.sh
 fi
 cp $cwd/monitorworkers.sh /data/scripts
+if [[ -e /data/scripts/monitorExactWorker.sh ]]; then
+    rm -f /data/scripts/monitorExactWorker.sh
+fi
+cp $cwd/monitorExactWorker.sh /data/scripts
+if [[ -e /data/scripts/getNewFfmpeg.sh ]]; then
+    rm -f /data/scripts/getNewFfmpeg.sh
+fi
+cp $cwd/getNewFfmpeg.sh /data/scripts
 cp $cwd/monitorExactWorker.sh /data/scripts
 systemctl enable monitorworkers.service
 systemctl restart monitorworkers.service
-
 
