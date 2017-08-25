@@ -36,6 +36,8 @@
 log="/data/logs/scaleout.log"
 cooldown=300 #wait peroid after scaling out in seconds.
 groupName=$(aws autoscaling describe-auto-scaling-groups | jq .AutoScalingGroups[].AutoScalingGroupName | grep ConversionGroup)
+groupName="${groupName%\"}"
+groupName="${groupName#\"}"
 
 echo "Working with autoscaling group $groupName" >> $log
 
