@@ -5,6 +5,7 @@
 #Variables.
 workers="/data/conversionNodes"
 
+mkdir -p $workers
 
 while true; do
     #This loops through all the worker files and checks for a monitoring process for each found.

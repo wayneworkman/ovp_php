@@ -11,7 +11,7 @@ videoDir="/data/videos"
 tmpDir="/data/tmp"
 qrCodes="/data/qrCodes"
 jobs="/data/jobs"
-conversionNodes="/data/conversionNodes"
+workers="/data/conversionNodes"
 problemJobs="/data/problemJobs"
 log="/data/logs/processVideo.log"
 timeout=$(command -v timeout)
@@ -39,7 +39,7 @@ mkdir -p $tmpDir
 mkdir -p $qrCodes
 mkdir -p $jobs
 mkdir -p $problemJobs
-mkdir -p $conversionNodes
+mkdir -p $workers
 
 processupload() {
 
@@ -282,7 +282,7 @@ unset job
 
 
 #Set the ID file once.
-touch ${conversionNodes}/${id}
+touch ${workers}/${id}
 
 while true; do
 
