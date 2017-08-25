@@ -28,7 +28,6 @@ ip=$(command -v ip)
 cat=$(command -v cat)
 rm=$(command -v rm)
 nproc=$(command -v nproc)
-ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
 threads=$($nproc --all) #Number of threads to use in video conversion. Do not use more than 16.
 id=$(timeout 5 curl --silent http://169.254.169.254/latest/meta-data/instance-id)
 [[ -z $id ]] && id=$($ip -4 addr show $interface | $awk -F'[ /]+' '/global/ {print $3}')
@@ -42,6 +41,17 @@ mkdir -p $problemJobs
 mkdir -p $workers
 
 processupload() {
+
+#Get ffmpeg dynamically and check that it's set.
+ffmpeg=$(find /data/ffmpeg -type f -name ffmpeg)
+if [[ ! -e $ffmpeg ]]; then
+    #No ffmpeg binary.
+    $echo "No ffmpeg binary found." >> $log
+    $rm -f ${job}.lock
+    return 1
+fi
+
+
 
 
 local job="$1"
