@@ -57,8 +57,8 @@ if ($result->num_rows == 0) {
     if (password_verify($RawFingerprint, $UserFingerprint) && (($REQUEST_TIME - $oldREQUEST_TIME) <= $SessionTimeout) && ($UserEnabled == "1")) {
         // Session is verified, refresh it.
         $fingerprint    = password_hash("$RawFingerprint", PASSWORD_DEFAULT);
-        //$bytes          = openssl_random_pseudo_bytes(32, $cstrong);
-        //$Random_String  = $link->real_escape_string(bin2hex($bytes));
+        $bytes          = openssl_random_pseudo_bytes(32, $cstrong);
+        $Random_String  = $link->real_escape_string(bin2hex($bytes));
         $RawFingerprint = $UserID . $REMOTE_ADDR . $HTTP_USER_AGENT . $Random_String;
         $fingerprint    = password_hash("$RawFingerprint", PASSWORD_DEFAULT);
         $sql            = "INSERT INTO Sessions (REQUEST_TIME,SessionUserID,REMOTE_ADDR,HTTP_USER_AGENT,Random_String,fingerprint) VALUES ('$REQUEST_TIME','$UserID','$REMOTE_ADDR','$HTTP_USER_AGENT','$Random_String','$fingerprint')";
