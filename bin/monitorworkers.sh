@@ -18,7 +18,7 @@ while true; do
     do
         worker=$(basename $worker)
         ps -p "$(pidof -x monitorExactWorker.sh)" -o args | grep $worker > /dev/null 2>&1
-        [[ $? == 1 ]] && /data/scripts/monitorExactWorker.sh $worker
+        [[ $? == 1 ]] && /data/scripts/monitorExactWorker.sh $worker &
     done
 
 
