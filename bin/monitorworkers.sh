@@ -12,8 +12,11 @@ while true; do
     #If one isn't found for it, one gets made and backgrounded.
     for worker in $(find $workers -type f)
     do
-        ps -p "$(pidof -x monitorExactWorker.sh)" -o args | grep $worker
-        [[ $? == 1 ]] && /data/scripts/monitorExactWorker.sh $worker
+        pidof -x monitorExactWorker.sh > /dev/null 2>&1
+        if [[ "$?" == "0" ]]; then
+            ps -p "$(pidof -x monitorExactWorker.sh)" -o args | grep $worker > /dev/null 2>&1
+            [[ $? == 1 ]] && /data/scripts/monitorExactWorker.sh $worker
+        fi
     done
     sleep 7
 done
