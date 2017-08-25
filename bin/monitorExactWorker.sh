@@ -76,12 +76,14 @@ checks() {
 
 
 
-sleep 3300 # 3300 seconds is 55 minutes. To maximize benefit of on-demand instances, they should always run for nearly an hour minimum.
+#sleep 3300 # 3300 seconds is 55 minutes. To maximize benefit of on-demand instances, they should always run for nearly an hour minimum.
+sleep 120 #This is a test line.
 
 while true; do
     checks
     #After the initial offset created by 55 minutes (always 5 minutes shy of an hour), then begin checking once per hour.
-    sleep 3600
+    #sleep 3600
+    sleep 120
 done
 
 
