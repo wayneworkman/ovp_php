@@ -34,6 +34,16 @@ checks() {
     #In this function, the order of the checks matters.
 
 
+    #If this node isn't healthy, kill this node.
+    if [[ $(aws autoscaling describe-auto-scaling-instances --instance-ids $id | jq .AutoScalingInstances[0].HealthStatus) != "HEALTHY" ]]; then
+        echo "Node $id is not healthy, terminating." >> $log
+        $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
+        rm -f ${workers}/${id}
+        exit
+    fi
+
+    
+
     #If this node is processing a job, leave this node alive.
     for job in $(find /data/jobs -type f -name '*.lock')
     do
@@ -64,13 +74,6 @@ checks() {
     fi
 
 
-    #If this node isn't healthy, kill this node.
-    if [[ $(aws autoscaling describe-auto-scaling-instances --instance-ids $id | jq .AutoScalingInstances[0].HealthStatus) != "HEALTHY" ]]; then
-        echo "Node $id is not healthy, terminating." >> $log
-        $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
-        rm -f ${workers}/${id}
-        exit
-    fi
 
 }
 
