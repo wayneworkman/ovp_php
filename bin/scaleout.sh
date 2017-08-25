@@ -35,10 +35,9 @@
 
 
 cooldown=300 #wait peroid after scaling out in seconds.
-
+groupName=$(aws autoscaling describe-auto-scaling-groups | jq .AutoScalingGroups[].AutoScalingGroupName | grep ConversionGroup)
 
 while true; do
-    groupName="Perpetuum-Conversion-Nodes-ConversionGroup-1Q2DBEDN3Q5S9"
     desiredCapacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $groupName | jq '.AutoScalingGroups[0] .DesiredCapacity')
 
 
