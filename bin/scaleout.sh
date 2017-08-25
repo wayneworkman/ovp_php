@@ -43,7 +43,7 @@ while true; do
 
 
     #This loop goes through each job file.
-    for job in $($find /data/jobs -type f -name '*.job')
+    for job in $(find /data/jobs -type f -name '*.job')
     do
 
         #Check to see if there's not a lock for this job.
