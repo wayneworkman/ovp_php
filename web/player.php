@@ -24,7 +24,7 @@ if ($result->num_rows == 0) {
         //echo "$sql<br>\n";
         echo "<video controls autoplay preload=\"auto\" src=\"stream.php?v=$v\" width=\"60%\"></video>\n";
         echo "<br><br>\n";
-        echo "Request an account: $contactEmail";
+        //echo "Request an account: $contactEmail";
         echo "</body>\n";
         echo "</html>\n";
     }

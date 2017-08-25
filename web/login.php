@@ -21,7 +21,7 @@ echo "<br>\n";
 echo "<input type=\"submit\" name=\"submit\" value=\"login\">\n";
 echo "</form>\n";
 echo "<br><br>\n";
-echo "Request an account: $contactEmail";
+//echo "Request an account: $contactEmail";
 echo "</body>\n";
 echo "</html>\n";
 ?>
