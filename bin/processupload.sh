@@ -135,7 +135,7 @@ fi
 source $dbCredsFile
 
 
-
+echo "$id is working on $job" >> $log
 
 
 
@@ -272,11 +272,16 @@ if [[ -e $originalFile ]]; then
 fi
 
 
+echo "$id finished $job" >> $log
+
 #cleanup.
 unset file
 unset vTitle
 unset uID
 unset job
+
+
+
 
 }
 
