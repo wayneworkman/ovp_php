@@ -24,6 +24,7 @@ if [[ -e /data/scripts/monitorworkers.sh ]]; then
     rm -f /data/scripts/monitorworkers.sh
 fi
 cp $cwd/monitorworkers.sh /data/scripts
+cp $cwd/monitorExactWorker.sh /data/scripts
 systemctl enable monitorworkers.service
 systemctl restart monitorworkers.service
 
