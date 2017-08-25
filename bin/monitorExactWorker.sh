@@ -37,7 +37,7 @@ checks() {
 
 
     #If this node isn't healthy, kill this node.
-    if [[ $(aws autoscaling describe-auto-scaling-instances --instance-ids $id | jq .AutoScalingInstances[0].HealthStatus) != "HEALTHY" ]]; then
+    if [[ $(aws autoscaling describe-auto-scaling-instances --instance-ids $id | jq .AutoScalingInstances[0].HealthStatus) != "\"HEALTHY\"" ]]; then
         echo "Node $id is not healthy, terminating." >> $log
         $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
         rm -f ${workers}/${id}
