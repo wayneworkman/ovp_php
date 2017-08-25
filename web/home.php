@@ -29,7 +29,7 @@ if ($SessionIsVerified == "1") {
         echo "</table>\n";
         $result->free();
     } else {
-        echo "You have not uploaded any videos yet.";
+        echo "You have not uploaded any videos yet.<br>You might want to read the <a href=\"showWelcome.php\">Welcome</a> page.";
     }
     echo "</div>\n";
     echo "</body>";
