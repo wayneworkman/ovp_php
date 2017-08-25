@@ -18,7 +18,7 @@ workers="/data/conversionNodes"
 jobs="/data/jobs"
 aws=$(command -v aws)
 log="/data/logs/monitorExactWorker.log"
-
+warmup="300"
 
 id=$1
 if [[ -z $id ]]; then
@@ -28,6 +28,8 @@ fi
 
 echo "Began monitoring $id" >> $log
 
+
+sleep $warmup
 
 
 checks() {
