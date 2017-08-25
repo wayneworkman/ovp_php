@@ -17,12 +17,18 @@
 workers="/data/conversionNodes"
 jobs="/data/jobs"
 aws=$(command -v aws)
+log="/data/logs/monitorExactWorker.log"
+
 
 id=$1
 if [[ -z $id ]]; then
     #No id passed, exiting.
     exit
 fi
+
+echo "Began monitoring $id" >> $log
+
+
 
 checks() {
     #In this function, the order of the checks matters.
@@ -33,14 +39,17 @@ checks() {
     do
         if [[ "$(cat $job | head -n 1)" == "$id" ]]; then
             #Node is working, it must live. Exit this check.
+            echo "$id is processing a video." >> $log
             return 0
         fi
     done
 
     #If there are jobs without locks, leave this node alive.
     if [[ $(ls ${jobs}/*.job | wc -l) > $(ls ${jobs}/*.lock | wc -l) ]]; then
+        echo "There are jobs without locks, leaving $id" >> $log
         return 0
     else
+        echo "All jobs have locks and they are not this node, terminating $id" >> $log
         $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
         rm -f ${workers}/${id}
         exit
@@ -48,6 +57,7 @@ checks() {
 
     #If there are no jobs, kill this node.
     if [[ $(ls ${jobs}/*.job | wc -l) == "0" ]]; then
+        echo "There are no jobs, terminating node $id" >> $log
         $aws autoscaling terminate-instance-in-auto-scaling-group --instance-id $id --should-decrement-desired-capacity
         rm -f ${workers}/${id}
         exit
