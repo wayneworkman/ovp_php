@@ -11,7 +11,7 @@ $database = 'ovp';
 $domainName="perpetuum.io";
 
 // Various site settings.
-$SessionTimeout = 900; // measured in seconds.
+$SessionTimeout = 86400; // measured in seconds.
 $PasswordDefault = "changeme";
 $SiteName = "Perpetuum";
 $home = "home.php"; //This is the home file.
