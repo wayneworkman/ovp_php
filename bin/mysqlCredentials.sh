@@ -12,5 +12,5 @@ databaseEndpoint="${databaseEndpoint#\"}"
 
 mysqlUser="processvideo"
 mysqlPass="processvideopassword"
-mysqlHost="ServerNameGoesHere"
-database="$databaseEndpoint"
+mysqlHost="$databaseEndpoint"
+database="ovp"
