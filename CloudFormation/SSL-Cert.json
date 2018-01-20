@@ -1,0 +1,23 @@
+{
+   "Resources":{
+      "myCert":{
+         "Type":"AWS::CertificateManager::Certificate",
+         "Properties":{
+            "DomainName":{
+               "Fn::ImportValue":"PublicDomainName"
+            }
+         }
+      }
+   },
+   "Outputs":{
+      "myCertOutput":{
+         "Description":"The cert ID.",
+         "Value":{
+            "Ref":"myCert"
+         },
+         "Export":{
+            "Name":"myCertID"
+         }
+      }
+   }
+}

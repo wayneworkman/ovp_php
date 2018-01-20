@@ -1,0 +1,242 @@
+{
+    "Parameters":{
+      "amiID":{
+         "Type":"String",
+         "Default":"ami-32cae657",
+         "Description":"The amiID to use."
+      }  
+    },
+   "Resources":{
+      "ConversionSecurityGroup":{
+         "Type":"AWS::EC2::SecurityGroup",
+         "Properties":{
+            "GroupDescription":"Allow ssh",
+            "VpcId":{
+               "Fn::ImportValue":"theVpcId"
+            },
+            "SecurityGroupIngress":[
+               {
+                  "IpProtocol":"tcp",
+                  "FromPort":"22",
+                  "ToPort":"22",
+                  "CidrIp":"97.85.148.83/32"
+               }
+            ],
+            "SecurityGroupEgress":[
+               {
+                  "IpProtocol":"-1",
+                  "FromPort":"1",
+                  "ToPort":"65535",
+                  "CidrIp":"0.0.0.0/0"
+               }
+            ]
+         }
+      },
+      "InstanceProfile":{
+         "Type":"AWS::IAM::InstanceProfile",
+         "Properties":{
+            "Path":"/",
+            "Roles":[
+               "ConversionRole"
+            ]
+         }
+      },
+      "ConversionCoordinator":{
+         "Type":"AWS::EC2::Instance",
+         "Properties":{
+            "BlockDeviceMappings":[
+               {
+                  "DeviceName":"/dev/sda1",
+                  "Ebs":{
+                     "DeleteOnTermination":true,
+                     "VolumeSize":8,
+                     "VolumeType":"gp2"
+                  }
+               }
+            ],
+            "IamInstanceProfile":{
+               "Ref":"InstanceProfile"
+            },
+            "ImageId":{
+                  "Ref":"amiID"
+               },
+            "InstanceType":"t2.nano",
+            "KeyName":"OVP",
+            "SecurityGroupIds":[
+               {
+                  "Ref":"ConversionSecurityGroup"
+               }
+            ],
+            "SubnetId":{
+               "Fn::ImportValue":"PublicSubC"
+            },
+            "Tags":[
+               {
+                  "Key":"Name",
+                  "Value":"Conversion-Coordinator"
+               }
+            ],
+            "UserData":{
+               "Fn::Base64":{
+                  "Fn::Join":[
+                     "",
+                     [
+                        "#!/bin/bash -xe\n",
+                        "mkdir /data\n",
+                        "echo \"",
+                        {
+                           "Fn::ImportValue":"theFileSystemName"
+                        },
+                        ":/ /data nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0\" >> /etc/fstab\n",
+                        "mount /data\n",
+                        "git clone https://github.com/wayneworkman/ovp.git\n",
+                        "cd ovp/bin\n",
+                        "./setupCoordinator.sh\n",
+                        "/opt/aws/bin/cfn-signal -e $? --stack ",
+                        {
+                           "Ref":"AWS::StackName"
+                        },
+                        " --resource ConversionGroup --region ",
+                        {
+                           "Ref":"AWS::Region"
+                        },
+                        "\n"
+                     ]
+                  ]
+               }
+            }
+         }
+      },
+      "CoordinatorDnsRecord":{
+         "Type":"AWS::Route53::RecordSet",
+         "Properties":{
+            "HostedZoneId":{
+               "Fn::ImportValue":"DnsHostedZoneID"
+            },
+            "Comment":"DNS A record for Conversion Coordinator",
+            "Name":{
+               "Fn::Join":[
+                  ".",
+                  [
+                     "coordinator",
+                     {
+                        "Fn::ImportValue":"PublicDomainName"
+                     }
+                  ]
+               ]
+            },
+            "Type":"CNAME",
+            "TTL":"900",
+            "ResourceRecords":[
+               {
+                  "Fn::GetAtt":[
+                     "ConversionCoordinator",
+                     "PublicDnsName"
+                  ]
+               }
+            ]
+         }
+      },
+      "ConversionGroup":{
+         "Type":"AWS::AutoScaling::AutoScalingGroup",
+         "Properties":{
+            "VPCZoneIdentifier":[
+               {
+                  "Fn::ImportValue":"PublicSubA"
+               },
+               {
+                  "Fn::ImportValue":"PublicSubB"
+               },
+               {
+                  "Fn::ImportValue":"PublicSubC"
+               }
+            ],
+            "LaunchConfigurationName":{
+               "Ref":"LaunchConfig"
+            },
+            "Tags":[
+               {
+                  "Key":"Name",
+                  "Value":"ConversionNode",
+                  "PropagateAtLaunch":true
+               }
+            ],
+            "MinSize":"0",
+            "MaxSize":"2",
+            "DesiredCapacity":"1",
+            "Cooldown":"60"
+         },
+         "CreationPolicy":{
+            "ResourceSignal":{
+               "Timeout":"PT5M",
+               "Count":"1"
+            }
+         },
+         "UpdatePolicy":{
+            "AutoScalingRollingUpdate":{
+               "MinInstancesInService":"1",
+               "MaxBatchSize":"1",
+               "PauseTime":"PT5M",
+               "WaitOnResourceSignals":"true"
+            }
+         }
+      },
+      "LaunchConfig":{
+         "Type":"AWS::AutoScaling::LaunchConfiguration",
+         "Properties":{
+            "KeyName":"OVP",
+            "IamInstanceProfile":{
+               "Ref":"InstanceProfile"
+            },
+            "ImageId":{
+                  "Ref":"amiID"
+               },
+            "SecurityGroups":[
+               {
+                  "Ref":"ConversionSecurityGroup"
+               }
+            ],
+            "BlockDeviceMappings":[
+               {
+                  "DeviceName":"/dev/sda1",
+                  "Ebs":{
+                     "DeleteOnTermination":true,
+                     "VolumeSize":8,
+                     "VolumeType":"gp2"
+                  }
+               }
+            ],
+            "InstanceType":"c4.4xlarge",
+            "UserData":{
+               "Fn::Base64":{
+                  "Fn::Join":[
+                     "",
+                     [
+                        "#!/bin/bash -xe\n",
+                        "mkdir /data\n",
+                        "echo \"",
+                        {
+                           "Fn::ImportValue":"theFileSystemName"
+                        },
+                        ":/ /data nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev 0 0\" >> /etc/fstab\n",
+                        "mount /data\n",
+                        "git clone https://github.com/wayneworkman/ovp.git\n",
+                        "cd ovp/bin\n",
+                        "./setupConversionNode.sh\n",
+                        "/opt/aws/bin/cfn-signal -e $? --stack ",
+                        {
+                           "Ref":"AWS::StackName"
+                        },
+                        " --resource ConversionGroup --region ",
+                        {
+                           "Ref":"AWS::Region"
+                        },
+                        "\n"
+                     ]
+                  ]
+               }
+            }
+         }
+      }
+   }
+}

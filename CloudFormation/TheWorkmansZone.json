@@ -1,0 +1,37 @@
+{
+   "Parameters":{
+      "PublicDomainName":{
+         "Type":"String",
+         "Default":"perpetuum.io",
+         "Description":"The public hosted zone for a domain name."
+      }
+   },
+   "Resources":{
+      "DnsHostedZone":{
+         "Type":"AWS::Route53::HostedZone",
+         "Properties":{
+            "Name":{"Ref":"PublicDomainName"}
+         }
+      }
+   },
+   "Outputs":{
+      "DnsHostedZoneOutput":{
+         "Description":"The hosted zone ID.",
+         "Value":{
+            "Ref":"DnsHostedZone"
+         },
+         "Export":{
+            "Name":"TheWorkmansZoneID"
+         }
+      },
+      "PublicDomainNameOutput":{
+         "Description":"The hosted zone name.",
+         "Value":{
+            "Ref":"PublicDomainName"
+         },
+         "Export":{
+            "Name":"TheWorkmansDomainName"
+         }
+      }
+   }
+}

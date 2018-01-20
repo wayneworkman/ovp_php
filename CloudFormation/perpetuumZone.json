@@ -1,0 +1,51 @@
+{
+   "Parameters":{
+      "PublicDomainName":{
+         "Type":"String",
+         "Default":"perpetuum.io",
+         "Description":"The public hosted zone for a domain name."
+      },
+       "SslCertificateArn":{
+         "Type":"String",
+         "Default":"arn:aws:acm:us-east-2:446714680278:certificate/18ae4e50-878f-4e03-8258-d4013dd6eac8",
+         "Description":"The SSL certificate ARN for this hosted zone. Must already exist."
+      }
+   },
+   "Resources":{
+      "DnsHostedZone":{
+         "Type":"AWS::Route53::HostedZone",
+         "Properties":{
+            "Name":{"Ref":"PublicDomainName"}
+         }
+      }
+   },
+   "Outputs":{
+      "DnsHostedZoneOutput":{
+         "Description":"The hosted zone ID.",
+         "Value":{
+            "Ref":"DnsHostedZone"
+         },
+         "Export":{
+            "Name":"DnsHostedZoneID"
+         }
+      },
+      "PublicDomainNameOutput":{
+         "Description":"The hosted zone name.",
+         "Value":{
+            "Ref":"PublicDomainName"
+         },
+         "Export":{
+            "Name":"PublicDomainName"
+         }
+      },
+       "SslCertificateArnOutput":{
+         "Description":"The SSL certificate ID for this hosted zone.",
+         "Value":{
+            "Ref":"SslCertificateArn"
+         },
+         "Export":{
+            "Name":"SslCertificateArn"
+         }
+      }
+   }
+}
